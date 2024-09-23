@@ -39,6 +39,8 @@ class DCCEX:
         self.memory: Memory = Memory(self)
 
     def _listener(self) -> None:
+        """Internal function where a listener thread waits to recieve messages from the server.
+        """
         while True:
             message: bytes = self.client_socket.recv(1024)
             decodedMsg: DecodedCommand = DecodedCommand(message)
