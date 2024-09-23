@@ -18,15 +18,9 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-
-[project.entry-points."console_scripts"]
-dcc_ex_py = "dcc_ex_py.cli:main"
 
 [project.optional-dependencies]
 all = [
@@ -34,7 +28,6 @@ all = [
 ]
 
 extra = [
-    "pandas",
 ]
 
 
@@ -72,10 +65,6 @@ exclude = [
     "docs",
 ]
 max-line-length = 200
-
-
-[project.urls]
-Homepage = "https://github.com/Zenith08/DCC-EX_py"
 
 [build-system]
 requires = ["setuptools>=64", "setuptools_scm>=8"]

@@ -14,7 +14,17 @@ from .Memory import Memory
 
 
 class DCCEX:
+    """Defines a connection to a DCC-EX server and provides interfaces for interacting with the different capabilities supported by the hardware.
+    """
+
     def __init__(self, ip: str, port: int) -> None:
+        """Create a new connection to a DCC-EX Server
+
+        :param ip: The (local) ip address of the server to connect to. If you haven't set this, it is probably '192.168.4.1'
+        :type ip: str
+        :param port: The numeric port to connect on, usually 2560.
+        :type port: int
+        """
         # Internal prep
         self._init_sockets(ip, port)
         self.onPacketReceived: List[Callable[[DecodedCommand], None]] = []
@@ -29,6 +39,8 @@ class DCCEX:
         self.memory: Memory = Memory(self)
 
     def _listener(self) -> None:
+        """Internal function where a listener thread waits to recieve messages from the server.
+        """
         while True:
             message: bytes = self.client_socket.recv(1024)
             decodedMsg: DecodedCommand = DecodedCommand(message)
