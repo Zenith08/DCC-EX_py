@@ -71,7 +71,7 @@ replace = '__version__ = "{new_version}"'
 exclude = [
     "docs",
 ]
-max-line-length = 88
+max-line-length = 200
 
 
 [project.urls]

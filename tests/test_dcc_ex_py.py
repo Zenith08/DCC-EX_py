@@ -5,9 +5,6 @@
 import pytest
 
 
-from dcc_ex_py import dcc_ex_py
-
-
 @pytest.fixture
 def response():
     """Sample pytest fixture.
