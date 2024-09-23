@@ -2,6 +2,7 @@ from typing import Any
 
 from .Helpers import DecodedCommand, TurnoutControl, TurnoutProfiles, TurnoutState
 
+
 class Turnouts:
     def __init__(self, controller: Any) -> None:
         from .DCCEX import DCCEX
@@ -68,25 +69,25 @@ class Turnout:
         self.thrown_position: int = 0
         self.closed_position: int = 0
         self.profile: TurnoutProfiles = TurnoutProfiles.IMMEDIATE # placeholder
-    
+
     def _setup_dcc(self, address: int, subaddress: int) -> None:
         self.controlType = TurnoutControl.DCC
         self.address = address
         self.subaddress = subaddress
-    
+
     def _setup_vpin(self, pin: int) -> None:
         self.controlType = TurnoutControl.VPIN
         self.vpin = pin
-    
+
     def _setup_servo(self, pin: int, thrown_pos: int, closed_pos: int, profile: TurnoutProfiles) -> None:
         self.controlType = TurnoutControl.SERVO
         self.vpin = pin
         self.thrown_position = thrown_pos
         self.closed_position = closed_pos
         self.profile = profile
-    
+
     def _setup_lcn(self) -> None:
         self.controlType = TurnoutControl.LCN
-    
+
     def _set_state(self, state: TurnoutState) -> None:
         self.thrown = state

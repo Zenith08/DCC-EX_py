@@ -12,6 +12,7 @@ from .Sensors import Sensors
 from .DigitalOutputs import DigitalOutputs
 from .Memory import Memory
 
+
 class DCCEX:
     def __init__(self, ip: str, port: int) -> None:
         # Internal prep
@@ -49,9 +50,9 @@ class DCCEX:
     def send_command(self, command: str) -> None:
         command += '\n'
         self.client_socket.sendall(command.encode())
-    
+
     def add_command_listener(self, callback: Callable[[DecodedCommand], None]) -> None:
         self.onPacketReceived.append(callback)
-    
+
     def remove_command_listener(self, callback: Callable[[DecodedCommand], None]) -> None:
         self.onPacketReceived.remove(callback)

@@ -1,13 +1,14 @@
 from typing import Any
 from .Helpers import DecodedCommand, Direction, ActiveState
 
+
 class TrainEngines:
     def __init__(self, controller: Any) -> None:
         from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
         self.engines: list[ActiveEngine] = []
-        self.maxEngines: int = 0 # init unknown
+        self.maxEngines: int = 0  # init unknown
 
         self.controller.add_command_listener(self.command_received)
 
@@ -16,10 +17,10 @@ class TrainEngines:
 
     def forget_loco(self, cab: int) -> None:
         self.controller.send_command(f"<- {cab}>")
-    
+
     def forget_all_locos(self) -> None:
         self.controller.send_command("<->")
-    
+
     def emergency_stop(self) -> None:
         self.controller.send_command("<!>")
 
@@ -32,6 +33,7 @@ class TrainEngines:
         # '#' command, also needs outbound function
         # 'l' (idk if this is new or old function system)
         pass
+
 
 class ActiveEngine:
     def __init__(self, cab: int) -> None:
