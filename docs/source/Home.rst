@@ -1,0 +1,4 @@
+:orphan:
+
+.. toctree::
+   index.rst
