@@ -15,6 +15,14 @@ from .Memory import Memory
 
 class DCCEX:
     def __init__(self, ip: str, port: int) -> None:
+        """
+        Create a new connection to a DCC-EX Server
+
+        :param ip: The (local) ip address of the server to connect to. If you haven't set this, it is probably '192.168.4.1'
+        :type ip: str
+        :param port: The numeric port to connect on, usually 2560.
+        :type port: int
+        """
         # Internal prep
         self._init_sockets(ip, port)
         self.onPacketReceived: List[Callable[[DecodedCommand], None]] = []
