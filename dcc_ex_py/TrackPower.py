@@ -3,7 +3,7 @@ from .Helpers import ActiveState, DecodedCommand, Track
 
 class TrackPower:
     def __init__(self, controller: Any) -> None:
-        from DCCEX import DCCEX
+        from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
         self.mainOn: bool = False

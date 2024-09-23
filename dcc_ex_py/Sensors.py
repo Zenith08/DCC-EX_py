@@ -1,6 +1,6 @@
 from typing import Any
 
-from dccex_py.Helpers import DecodedCommand
+from .Helpers import DecodedCommand
 
 class Sensor:
     def __init__(self, id: int, pin: int, inverted: bool) -> None:
@@ -19,7 +19,7 @@ class Sensor:
 
 class Sensors:
     def __init__(self, controller: Any) -> None:
-        from DCCEX import DCCEX
+        from .DCCEX import DCCEX
         self.controller: DCCEX = controller
         self.sensors: dict[int, Sensor] = {}
 

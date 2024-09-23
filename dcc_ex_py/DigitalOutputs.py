@@ -4,7 +4,7 @@ from .Helpers import ActiveState, DecodedCommand, IFlag
 
 class DigitalOutputs:
     def __init__(self, controller: Any) -> None:
-        from DCCEX import DCCEX
+        from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
         self.outputs: dict[int, DigitalOutput] = {}

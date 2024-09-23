@@ -3,7 +3,7 @@ from .Helpers import DecodedCommand, Direction, ActiveState
 
 class TrainEngines:
     def __init__(self, controller: Any) -> None:
-        from DCCEX import DCCEX
+        from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
         self.engines: list[ActiveEngine] = []

@@ -4,7 +4,7 @@ from .Helpers import DecodedCommand, TurnoutProfiles, TurnoutState
 
 class Memory:
     def __init__(self, controller: Any) -> None:
-        from DCCEX import DCCEX
+        from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
         self.nTurnoutsSaved: int = 0

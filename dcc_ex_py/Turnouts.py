@@ -4,7 +4,7 @@ from .Helpers import DecodedCommand, TurnoutControl, TurnoutProfiles, TurnoutSta
 
 class Turnouts:
     def __init__(self, controller: Any) -> None:
-        from DCCEX import DCCEX
+        from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
         self.turnouts: dict[int, Turnout] = {}
