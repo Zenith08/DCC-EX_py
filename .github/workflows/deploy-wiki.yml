@@ -25,6 +25,9 @@ jobs:
         pip install -r requirements.txt
         pip install -r requirements_dev.txt
 
+    - name: Install Package
+      run: pip install .
+
     - name: Build Sphinx Documentation
       run: |
         sphinx-build -b markdown docs/source docs/build/
