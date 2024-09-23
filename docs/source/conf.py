@@ -6,27 +6,39 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'DCCEX_py'
-copyright = '2024, Kaiden'
-author = 'Kaiden'
-release = '0.0.1'
+project: str = 'DCCEX_py'
+copyright: str = '2024, Kaiden'
+author: str = 'Kaiden Richardson'
+release: str = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = [
+extensions: list[str] = [
     'sphinx_markdown_builder',
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary'
+    'sphinx.ext.autosummary',
+    'sphinx_autodoc_typehints',
+    'sphinx.ext.viewcode'
 ]
 
-templates_path = ['_templates']
-exclude_patterns = []
+autosummary_generate: bool = True
+
+autodoc_default_options: dict[str, bool] = {
+    'members': True,
+    'undoc-members': True,
+    'private-members': True,
+    'inherited-members': True,
+    'show-inheritance': True,
+}
+
+templates_path: list[str] = ['_templates']
+exclude_patterns: list[str] = []
 
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
-html_static_path = ['_static']
+html_theme: str = 'alabaster'
+html_static_path: list[str] = ['_static']
