@@ -24,6 +24,7 @@ def test_init_sockets(mock_socket):
 
     # Ensure the socket is connected with the correct parameters
     mock_socket.connect.assert_called_with(("127.0.0.1", 1234))
+    assert dccex != None
 
 
 def test_send_command(mock_socket, dccex):
