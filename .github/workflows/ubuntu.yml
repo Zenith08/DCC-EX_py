@@ -8,7 +8,7 @@ on:
             - main
             - master
 
-name: Linux build
+name: Build and Test
 jobs:
     py-check:
         runs-on: ${{ matrix.config.os }}
@@ -40,8 +40,8 @@ jobs:
             - name: Install dependencies
               run: |
                   pip install --user -r requirements.txt
+                  pip install --user -r requirements_dev.txt
                   pip install .
             - name: PKG-TEST
               run: |
                   python -m unittest discover tests/
-

@@ -9,7 +9,7 @@ on:
             - master
 
 
-name: Linux installation
+name: Install Test
 jobs:
     test-ubuntu:
         runs-on: ubuntu-latest

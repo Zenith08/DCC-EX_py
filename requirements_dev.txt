@@ -5,6 +5,7 @@ bump-my-version
 codespell
 wheel
 flake8
+flake8-pyproject
 twine
 click
 pytest
