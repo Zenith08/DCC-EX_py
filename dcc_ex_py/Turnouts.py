@@ -14,22 +14,22 @@ class Turnouts:
 
     def create_dcc_turnout(self, id: int, linear_address: int) -> None:
         self.controller.send_command(f"<T {id} DCC {linear_address}>")
-    
+
     def create_dcc_turnout_sub(self, id: int, address: int, subaddress: int) -> None:
         self.controller.send_command(f"<T {id} DCC {address} {subaddress}>")
-    
+
     def create_servo_turnout(self, id: int, pin: int, thrown_position: int, closed_position: int, profile: TurnoutProfiles) -> None:
         self.controller.send_command(f"<T {id} SERVO {pin} {thrown_position} {closed_position} {profile}>")
 
     def create_gpio_turnout(self, id: int, pin: int) -> None:
         self.controller.send_command(f"<T {id} VPIN {pin}>")
-    
+
     def delete_turnout(self, id: int) -> None:
         self.controller.send_command(f"<T {id}>")
-    
+
     def refresh_turnouts(self) -> None:
-        self.controller.send_command(f"<T>")
-    
+        self.controller.send_command("<T>")
+
     def set_turnout(self, id: int, state: TurnoutState) -> None:
         self.controller.send_command(f"<T {id} {state}>")
 
@@ -55,10 +55,11 @@ class Turnouts:
                 # Not defined but state changed
                 self.turnouts[id]._set_state(TurnoutState(command.args[1]))
 
+
 class Turnout:
     def __init__(self, id: int) -> None:
         self.id: int = id
-        self.controlType: TurnoutControl = TurnoutControl.LCN # placeholder
+        self.controlType: TurnoutControl = TurnoutControl.LCN  # placeholder
         self.thrown: TurnoutState = TurnoutState.CLOSED
         # DCC only
         self.address: int = 0
@@ -68,7 +69,7 @@ class Turnout:
         # Servo only
         self.thrown_position: int = 0
         self.closed_position: int = 0
-        self.profile: TurnoutProfiles = TurnoutProfiles.IMMEDIATE # placeholder
+        self.profile: TurnoutProfiles = TurnoutProfiles.IMMEDIATE  # placeholder
 
     def _setup_dcc(self, address: int, subaddress: int) -> None:
         self.controlType = TurnoutControl.DCC

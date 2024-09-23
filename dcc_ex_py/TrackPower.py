@@ -20,7 +20,7 @@ class TrackPower:
 
     def power_select_track(self, power: ActiveState, track: Track) -> None:
         self.controller.send_command(f"<{power} {track}>")
-    
+
     def command_received(self, command: DecodedCommand) -> None:
         if command.command.startswith('p'):
             on: bool = False

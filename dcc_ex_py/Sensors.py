@@ -38,7 +38,7 @@ class Sensors:
 
         if id in self.sensors:
             self.sensors.pop(id, None)
-    
+
     def has_sensor(self, id: int) -> bool:
         return id in self.sensors
 

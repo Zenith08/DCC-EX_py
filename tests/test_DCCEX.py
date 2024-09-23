@@ -1,13 +1,6 @@
 import pytest
 from unittest.mock import MagicMock, patch
 
-# tests/conftest.py
-import sys
-import os
-
-# Add project root to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from dcc_ex_py.DCCEX import DCCEX
 from dcc_ex_py.Helpers import DecodedCommand
 
@@ -32,6 +25,7 @@ def test_init_sockets(mock_socket):
     # Ensure the socket is connected with the correct parameters
     mock_socket.connect.assert_called_with(("127.0.0.1", 1234))
 
+
 def test_send_command(mock_socket, dccex):
     command = "power on"
 
@@ -40,6 +34,7 @@ def test_send_command(mock_socket, dccex):
 
     # Verify that the command was sent with the correct encoding and added newline
     mock_socket.sendall.assert_called_with(b'power on\n')
+
 
 def test_add_command_listener(dccex):
     mock_listener = MagicMock()
@@ -53,6 +48,7 @@ def test_add_command_listener(dccex):
 
     # Check that the listener was called with the decoded command
     mock_listener.assert_called_with(mock_decoded_command)
+
 
 def test_remove_command_listener(dccex):
     mock_listener = MagicMock()
