@@ -1,9 +1,9 @@
 name: Deploy Sphinx Documentation to Wiki
 
 on:
-  push
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
