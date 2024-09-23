@@ -14,9 +14,11 @@ from .Memory import Memory
 
 
 class DCCEX:
+    """Defines a connection to a DCC-EX server and provides interfaces for interacting with the different capabilities supported by the hardware.
+    """
+
     def __init__(self, ip: str, port: int) -> None:
-        """
-        Create a new connection to a DCC-EX Server
+        """Create a new connection to a DCC-EX Server
 
         :param ip: The (local) ip address of the server to connect to. If you haven't set this, it is probably '192.168.4.1'
         :type ip: str
