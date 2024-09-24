@@ -31,6 +31,10 @@ jobs:
     - name: Build Sphinx Documentation
       run: |
         sphinx-build -b markdown docs/source docs/build/
+    
+    - name: Fix Wiki Links
+      run: |
+        python docs/fixwiki.py
 
     - name: Checkout Wiki
       run: git clone https://github.com/${{ github.repository }}.wiki.git wiki
