@@ -72,14 +72,14 @@ class DCCEX:
 
     def add_command_listener(self, callback: Callable[[DecodedCommand], None]) -> None:
         """Register a callback function to be called if we receive input from the DCC-EX Controller.
-        
+
         :param callback: The function to be called, it is passed a DecodedCommand which contains all the relavent information. It is not required to return anything.
         """
         self.onPacketReceived.append(callback)
 
     def remove_command_listener(self, callback: Callable[[DecodedCommand], None]) -> None:
         """Remove a callback function from the list of callbacks called when a packet is received.
-        
+
         :param callback: The callback function to remove.
         """
         self.onPacketReceived.remove(callback)
