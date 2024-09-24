@@ -3,7 +3,7 @@ import re
 from typing import Optional
 
 # Directory where Sphinx generates the documentation
-build_dir: str = os.path.join('docs', 'build', 'markdown')
+build_dir: str = os.path.join('docs', 'build')
 
 # Regular expression to match links that include the incorrect path
 link_regex: re.Pattern[str] = re.compile(r'\(_autosummary/(.*?)\.md(#.*?)?\)')
