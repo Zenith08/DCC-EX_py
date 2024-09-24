@@ -3,10 +3,7 @@ import re
 from typing import Optional
 
 # Directory where Sphinx generates the documentation
-build_dir: str = os.path.join(os.path.abspath('.'), 'docs', 'build', 'markdown')
-
-# The correct path you want to use (e.g., root or other folder GitHub Wiki expects)
-correct_path = ''
+build_dir: str = os.path.join('docs', 'build', 'markdown')
 
 # Regular expression to match links that include the incorrect path
 link_regex: re.Pattern[str] = re.compile(r'\(_autosummary/(.*?)\.md(#.*?)?\)')
