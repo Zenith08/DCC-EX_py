@@ -31,7 +31,17 @@ def process_directory(dir_path) -> None:
                 file_path: str = os.path.join(root, file_name)
                 fix_links_in_file(file_path)
 
+def list_files(startpath):
+    for root, dirs, files in os.walk(startpath):
+        level = root.replace(startpath, '').count(os.sep)
+        indent = ' ' * 4 * (level)
+        print('{}{}/'.format(indent, os.path.basename(root)))
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print('{}{}'.format(subindent, f))
+
 if __name__ == '__main__':
     # Start processing the HTML files in the build directory
+    list_files(".")
     process_directory(build_dir)
     print(f"Fixed links in directory: {build_dir}")
