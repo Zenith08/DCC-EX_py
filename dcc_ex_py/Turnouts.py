@@ -110,17 +110,29 @@ class Turnout:
 
         :param id: The id of the turnout to use.
         """
+        #: The id of this turnout.
         self.id: int = id
-        self.controlType: TurnoutControl = TurnoutControl.LCN  # placeholder
+        #: The method being used to control this turnout (Defaults to LCN until we are told otherwise.)
+        self.controlType: TurnoutControl = TurnoutControl.LCN  # placeholder since it's the least common one.
+        #: The state the turnout is currently in (Initializes to Closed).
         self.thrown: TurnoutState = TurnoutState.CLOSED
-        # DCC only
+
+        # DCC Only
+        #: The primary DCC address for this turnout if it using DCC control (default 0).
         self.address: int = 0
+        #: The DCC subaddress for this turnout if it is using DCC control.
         self.subaddress: int = 0
+
         # VPin or Servo
+        #: The digital output pin used by this turnout if it is being controled either by a servo or digital pin.
         self.pin: int = 0
+
         # Servo only
+        #: The pwm rate to use for the thrown position if this turnout is being controlled by a servo.
         self.thrown_position: int = 0
+        #: The pwm rate to use for the closed position if this turnout is being controlled by a servo.
         self.closed_position: int = 0
+        #: The rate at which this turnout changes state if this turnout is being controlled by a servo.
         self.profile: TurnoutProfiles = TurnoutProfiles.IMMEDIATE  # placeholder
 
     def _setup_dcc(self, address: int, subaddress: int) -> None:
@@ -152,7 +164,7 @@ class Turnout:
 
         :param pin: The digital pin used by this turnout.
         """
-        self.controlType = TurnoutControl.VPIN
+        self.controlType = TurnoutControl.PIN
         self.pin = pin
 
     def _setup_lcn(self) -> None:

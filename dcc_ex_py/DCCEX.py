@@ -25,15 +25,22 @@ class DCCEX:
         """
         # Internal prep
         self._init_sockets(ip, port)
-        self.onPacketReceived: List[Callable[[DecodedCommand], None]] = []
+        self._onPacketReceived: List[Callable[[DecodedCommand], None]] = []
 
         # Wrappers for extra functionality
+        #: Wrapper for track power commands.
         self.track_power: TrackPower = TrackPower(self)
+        #: Wrapper for train engine commands.
         self.train_engines: TrainEngines = TrainEngines(self)
+        #: Wrapper for accessory decoder commands.
         self.accessories: Accessories = Accessories(self)
+        #: Wrapper for turnout commands.
         self.turnouts: Turnouts = Turnouts(self)
+        #: Wrapper for sensor commands.
         self.sensors: Sensors = Sensors(self)
+        #: Wrapper for digital output commands.
         self.gpio: DigitalOutputs = DigitalOutputs(self)
+        #: Wrapper for memory commands.
         self.memory: Memory = Memory(self)
 
     def _listener(self) -> None:
@@ -43,7 +50,7 @@ class DCCEX:
             message: bytes = self.client_socket.recv(1024)
             decodedMsg: DecodedCommand = DecodedCommand(message)
 
-            for listener in self.onPacketReceived:
+            for listener in self._onPacketReceived:
                 listener(decodedMsg)
 
     def _init_listener(self) -> None:
@@ -75,11 +82,11 @@ class DCCEX:
 
         :param callback: The function to be called, it is passed a DecodedCommand which contains all the relavent information. It is not required to return anything.
         """
-        self.onPacketReceived.append(callback)
+        self._onPacketReceived.append(callback)
 
     def remove_command_listener(self, callback: Callable[[DecodedCommand], None]) -> None:
         """Remove a callback function from the list of callbacks called when a packet is received.
 
         :param callback: The callback function to remove.
         """
-        self.onPacketReceived.remove(callback)
+        self._onPacketReceived.remove(callback)

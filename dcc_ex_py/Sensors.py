@@ -14,9 +14,13 @@ class Sensor:
         :param pin: The digital pin on the arduino used by this sensor.
         :param inverted: Whether the sensor has been digitally inverted by the command station or not.
         """
+        #: The id of this sensor.
         self.id: int = id
+        #: The digital pin on the arduino used by this sensor.
         self.pin: int = pin
+        #: Whether or not the command station is inverting this sensor.
         self.inverted: bool = inverted
+        #: Whether or not this sensor is detecting a train.
         self.active: bool = False
 
     def _pin_and_inverted_later(self, pin: int, inverted: bool) -> None:

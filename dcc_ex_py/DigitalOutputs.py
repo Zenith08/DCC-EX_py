@@ -15,9 +15,13 @@ class DigitalOutput:
         :param pin: The digital output pin on the arduino used by this output.
         :param iflag: The flags defining the behavior of this output.
         """
+        #: The internal id of this output.
         self.id: int = id
+        #: The pin on the arduino used by this output.
         self.pin: int = pin
+        #: The iflag defining special behavior of this output.
         self.iflag: IFlag = iflag
+        #: Whether this output is active or not.
         self.state: ActiveState = ActiveState.OFF
 
     # Happens when we first learn about this output because of a state change instead of a full definition

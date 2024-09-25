@@ -34,7 +34,7 @@ autodoc_default_options: dict[str, bool] = {
     'members': True,
     'undoc-members': True,
     'private-members': True,
-    'inherited-members': True,
+    'inherited-members': False,
     'show-inheritance': True,
 }
 

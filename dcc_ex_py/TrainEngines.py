@@ -15,6 +15,8 @@ class TrainEngines:
         self.controller: DCCEX = controller
 
         self.engines: list[ActiveEngine] = []
+
+        #: The max number of engines the command station supports at the same time based on onboard memory (0 if not checked, doesn't include power limitations).
         self.maxEngines: int = 0  # init unknown
 
         self.controller.add_command_listener(self._command_received)
