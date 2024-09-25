@@ -78,7 +78,7 @@ class DigitalOutputs:
 
     def set_output_pin(self, id: int, state: ActiveState) -> None:
         """Turns the output pin on or off.
-        
+
         :param id: The id of the output pin to change.
         :param state: Whether to turn the pin on or off."""
         self.controller.send_command(f"<Z {id} {state}>")
@@ -91,7 +91,7 @@ class DigitalOutputs:
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
-        
+
         :param command: The command we received after parsing it into a helper class.
         """
         if command.command == 'Y':

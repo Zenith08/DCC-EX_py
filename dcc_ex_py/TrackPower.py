@@ -24,7 +24,7 @@ class TrackPower:
 
     def power_all_tracks(self, power: ActiveState) -> None:
         """Asks the command station to change the power of all tracks to the given power state.
-        
+
         :param power: Whether to turn the main and programming tracks on or off.
         """
         self.controller.send_command(f"<{power}>")
@@ -36,7 +36,7 @@ class TrackPower:
         :param track: The track to set the power on, either: Main, Programming, or Both.
         """
         self.controller.send_command(f"<{power} {track}>")
-    
+
     def refresh_power_information(self) -> None:
         """Asks the command station to tell us what power is being used on each track.
         """
@@ -44,7 +44,7 @@ class TrackPower:
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
-        
+
         :param command: The command we received after parsing it into a helper class.
         """
         if command.command.startswith('p'):

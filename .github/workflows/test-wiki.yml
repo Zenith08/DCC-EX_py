@@ -1,0 +1,34 @@
+name: Deploy Sphinx Documentation to Wiki
+
+on:
+    pull_request:
+        branches:
+            - main
+            - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install -r requirements_dev.txt
+
+    - name: Install Package
+      run: pip install .
+
+    - name: Build Sphinx Documentation
+      run: |
+        sphinx-build -b markdown docs/source docs/build/

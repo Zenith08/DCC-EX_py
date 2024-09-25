@@ -32,7 +32,7 @@ class Memory:
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
-        
+
         :param command: The command we received after parsing it into a helper class.
         """
         if command.command == 'e':  # returned when save successful

@@ -21,7 +21,7 @@ class TrainEngines:
 
     def set_speed(self, cab: int, speed: int, direction: Direction) -> None:
         """Sets the speed of a target train engine in a given direction.
-        
+
         :param cab: The DCC address of the train to control.
         :param speed: The speed to set the train to (0-126), -1 is emergency stop.
         :param direction: Whether the train should go forwards or backwards.
@@ -30,7 +30,7 @@ class TrainEngines:
 
     def forget_loco(self, cab: int) -> None:
         """Asks the command station to forget about the target locomotive. The command station will stop sending speed information for this train.
-        
+
         :param cab: The DCC address of the train to forget about.
         """
         self.controller.send_command(f"<- {cab}>")
@@ -47,7 +47,7 @@ class TrainEngines:
 
     def set_cab_function(self, cab: int, function: int, on: ActiveState) -> None:
         """Sets a given function on a train to on or off.
-        
+
         :param cab: The DCC address of the target train.
         :param function: The function on the decoder to set (0-28).
         :param on: Whether to set the given function on or off.
@@ -56,7 +56,7 @@ class TrainEngines:
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
-        
+
         :param command: The command we received after parsing it into a helper class.
         """
         # TODO treat:

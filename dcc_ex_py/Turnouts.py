@@ -21,7 +21,7 @@ class Turnouts:
 
     def create_dcc_turnout(self, id: int, linear_address: int) -> None:
         """Defines a turnout on the command station using a linear address DCC accessory decoder.
-        
+
         :param id: The id of the turnout to create.
         :param linear_address: The linear address of the accessory decoder + channel combination to set.
         """
@@ -57,7 +57,7 @@ class Turnouts:
 
     def delete_turnout(self, id: int) -> None:
         """Deletes a turnout on the command station.
-        
+
         :param id: The id of the turnout to delete.
         """
         self.controller.send_command(f"<T {id}>")
@@ -69,14 +69,14 @@ class Turnouts:
 
     def set_turnout(self, id: int, state: TurnoutState) -> None:
         """Sets the turnout at the given id to a target state.
-        
+
         :param id: The id of the turnout to set.
         :param state: Whether to set the turnout to closed (normal) or thrown (open/branch)."""
         self.controller.send_command(f"<T {id} {state}>")
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
-        
+
         :param command: The command we received after parsing it into a helper class.
         """
         if command.command == 'H':
@@ -107,7 +107,7 @@ class Turnout:
 
     def __init__(self, id: int) -> None:
         """Instantiates a turnout at the point we do not have any information on it. Sets everything to temp values to fill in later.
-        
+
         :param id: The id of the turnout to use.
         """
         self.id: int = id
@@ -125,7 +125,7 @@ class Turnout:
 
     def _setup_dcc(self, address: int, subaddress: int) -> None:
         """An internal initialization function to add DCC information we learn after instantiation.
-        
+
         :param address: The primary DCC address of this turnout.
         :param subaddress: The subaddress for this turnout on it's decoder.
         """
@@ -135,7 +135,7 @@ class Turnout:
 
     def _setup_servo(self, pin: int, thrown_position: int, closed_position: int, profile: TurnoutProfiles) -> None:
         """An internal initialization function to add servo information we learn after instantiation.
-        
+
         :param pin: The digital pin used by this turnout.
         :param thrown_position: The PWM frequency to use when the turnout is thrown.
         :param closed_position: The PWM frequency to use when the turnout is closed.
@@ -149,7 +149,7 @@ class Turnout:
 
     def _setup_vpin(self, pin: int) -> None:
         """An internal initialization function to add digital pin information we learn after instantiation.
-        
+
         :param pin: The digital pin used by this turnout.
         """
         self.controlType = TurnoutControl.VPIN

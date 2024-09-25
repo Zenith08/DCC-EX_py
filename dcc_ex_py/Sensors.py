@@ -53,7 +53,7 @@ class Sensors:
 
     def define_sensor(self, id: int, pin: int, inverted: bool) -> None:
         """Defines a new sensor with the command station based on the given information.
-        
+
         :param id: The internal id of the sensor.
         :param pin: The digital pin on the Arduino used by this sensor.
         :param inverted: Whether the sensor is digitally inverted or not.
@@ -76,16 +76,16 @@ class Sensors:
 
     def has_sensor(self, id: int) -> bool:
         """Checks if we have local knowledge of the given sensor.
-        
+
         :param id: The id of the sensor to check for.
-        
+
         :returns: True if the sensor is known about locally, false otherwise.
         """
         return id in self.sensors
 
     def get_sensor(self, id: int) -> Optional[Sensor]:
         """Returns the local representation of the target sensor, or None if it doesn't exist.
-        
+
         :param id: The id of the sensor to get.
         :returns: The local sensor if present, None otherwise.
         """
@@ -98,7 +98,7 @@ class Sensors:
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
-        
+
         :param command: The command we received after parsing it into a helper class.
         """
         if command.command == 'Q':
