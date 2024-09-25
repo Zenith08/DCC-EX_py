@@ -13,6 +13,7 @@ This package wraps the protocol described in the [DCC-EX Native Command Detailed
 -   Free software: MIT License
 -   Documentation: https://github.com/Zenith08/DCC-EX_py/wiki
 
+This package is in early development, breaking changes may happen until it is marked version 1.0.
 
 ## Features
 
