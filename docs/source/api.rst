@@ -16,3 +16,12 @@ API
    dcc_ex_py.DigitalOutputs.DigitalOutputs
    dcc_ex_py.DigitalOutputs.DigitalOutput
    dcc_ex_py.Memory.Memory
+
+   dcc_ex_py.Helpers.DecodedCommand
+   dcc_ex_py.Helpers.ActiveState
+   dcc_ex_py.Helpers.Track
+   dcc_ex_py.Helpers.Direction
+   dcc_ex_py.Helpers.IFlag
+   dcc_ex_py.Helpers.TurnoutControl
+   dcc_ex_py.Helpers.TurnoutProfiles
+   dcc_ex_py.Helpers.TurnoutState

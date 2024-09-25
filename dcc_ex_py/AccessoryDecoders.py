@@ -3,11 +3,14 @@ from .Helpers import ActiveState
 
 
 class Accessories:
-    """Accessory Decoders are those that are connected to the track but do not control locomotives. Their addressing scheme and commands are different than locomotives.
+    """Wraps control of DCC-EX accessory decoder control.
+    Accessory Decoders are those that are connected to the track but do not control locomotives. Their addressing scheme and commands are different than locomotives.
     """
 
     def __init__(self, controller: Any) -> None:
-        """Called by the DCCEX Instance to instantiate this helper object.
+        """Instantiated by the DCCEX Instance
+
+        :param controller: The DCCEX object that this instance controls.
         """
         from .DCCEX import DCCEX
         self.controller: DCCEX = controller
@@ -24,10 +27,7 @@ class Accessories:
         """Sets an accessory decoder to be ON or OFF based on a given Address and Subaddress. See DCCEX Documentation for more.
 
         :param address: The non-linear address of the accessory decoder + channel combination to set.
-        :type address: int
         :param subaddress: For accessory decoders with multiple functions, subaddress chooses the function within the decoder.
-        :type subaddress: int
         :param state: Whether to set the decoder to be ON or OFF.
-        :type state: ActiveState
         """
         self.controller.send_command(f"<a {address} {subaddress} {state}>")
