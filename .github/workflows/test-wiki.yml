@@ -1,4 +1,4 @@
-name: Deploy Sphinx Documentation to Wiki
+name: Test the Wiki Documentation Builds
 
 on:
     pull_request:

@@ -45,7 +45,7 @@ def test_add_command_listener(dccex):
 
     # Simulate receiving a message
     mock_decoded_command = MagicMock(spec=DecodedCommand)
-    dccex.onPacketReceived[-1](mock_decoded_command)
+    dccex._onPacketReceived[-1](mock_decoded_command)
 
     # Check that the listener was called with the decoded command
     mock_listener.assert_called_with(mock_decoded_command)
@@ -61,8 +61,8 @@ def test_remove_command_listener(dccex):
     # Simulate receiving a message
     mock_decoded_command: DecodedCommand = DecodedCommand("<p1 1>".encode())
 
-    if dccex.onPacketReceived:
-        dccex.onPacketReceived[-1](mock_decoded_command)
+    if dccex._onPacketReceived:
+        dccex._onPacketReceived[-1](mock_decoded_command)
 
     # Check that the listener is no longer called
     assert mock_listener.call_count == 0
