@@ -1,11 +1,13 @@
 import pytest
 
 from .TestHelpers import MockDCCEX
-from dcc_ex_py.Turnouts import Turnouts, Turnout
+from dcc_ex_py.Turnouts import Turnouts
+
 
 @pytest.fixture
 def mock_ex() -> MockDCCEX:
     return MockDCCEX('192.168.4.1', 2560)
+
 
 def test_create_dcc_turnout(mock_ex):
     turnouts: Turnouts = Turnouts(mock_ex)

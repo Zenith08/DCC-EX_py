@@ -5,9 +5,11 @@ from dcc_ex_py.Helpers import ActiveState
 from .TestHelpers import MockDCCEX
 from dcc_ex_py.TrackPower import TrackPower
 
+
 @pytest.fixture
 def mock_ex() -> MockDCCEX:
     return MockDCCEX('192.168.4.1', 2560)
+
 
 def test_power_on(mock_ex):
     power: TrackPower = TrackPower(mock_ex)

@@ -1,12 +1,14 @@
 import pytest
 
 from .TestHelpers import MockDCCEX
-from dcc_ex_py.DigitalOutputs import DigitalOutputs, DigitalOutput
-from dcc_ex_py.Helpers import ActiveState, IFlag
+from dcc_ex_py.DigitalOutputs import DigitalOutputs
+from dcc_ex_py.Helpers import IFlag
+
 
 @pytest.fixture
 def mock_ex() -> MockDCCEX:
     return MockDCCEX('192.168.4.1', 2560)
+
 
 def test_create_output_pin(mock_ex):
     outputs: DigitalOutputs = DigitalOutputs(mock_ex)

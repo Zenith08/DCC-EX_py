@@ -1,13 +1,15 @@
 import pytest
 
-from dcc_ex_py.Helpers import ActiveState, Direction
+from dcc_ex_py.Helpers import Direction
 
 from .TestHelpers import MockDCCEX
 from dcc_ex_py.TrainEngines import TrainEngines
 
+
 @pytest.fixture
 def mock_ex() -> MockDCCEX:
     return MockDCCEX('192.168.4.1', 2560)
+
 
 def test_set_speed(mock_ex):
     engines: TrainEngines = TrainEngines(mock_ex)
