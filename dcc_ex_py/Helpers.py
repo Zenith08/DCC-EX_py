@@ -1,4 +1,4 @@
-from enum import IntFlag, auto, StrEnum
+from enum import IntFlag, StrEnum
 
 
 class DecodedCommand:

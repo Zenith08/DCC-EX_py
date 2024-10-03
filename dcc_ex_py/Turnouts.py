@@ -22,7 +22,6 @@ class Turnout:
         self.controlType: TurnoutControl = TurnoutControl.LCN  # placeholder since it's the least common one.
         """The method being used to control this turnout (Defaults to LCN until we are told otherwise.)"""
 
-
         self.thrown: TurnoutState = TurnoutState.CLOSED
         """The state the turnout is currently in (Initializes to Closed)."""
 
