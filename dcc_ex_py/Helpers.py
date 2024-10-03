@@ -51,9 +51,20 @@ class IFlag(IntFlag):
     See DCC-EX documentation for more.
     """
 
-    INVERTED = auto()
-    DONT_RESTORE = auto()
-    DEFAULT_ACTIVE = auto()
+    FORWARD_OPERATION = 0b000  # Bit 0: forward operation
+    """The pin operates normally, ON = High, OFF = Low."""
+    INVERTED_OPERATION = 0b001  # Bit 0: inverted operation
+    """The pin is inverted, ON = Low, OFF = High."""
+
+    RESTORE_STATE_ON_POWER_UP = 0b000  # Bit 1: restore state on power-up
+    """The state of the pin is saved to EEPROM and is restored on power-up."""
+    SET_STATE_ON_POWER_UP = 0b010      # Bit 1: set state on power-up based on bit 2
+    """The pin is set to a default state on power-up."""
+
+    INACTIVE_ON_POWER_UP = 0b000  # Bit 2: set pin to INACTIVE upon power-up
+    """The pin is set to OFF on power-up."""
+    ACTIVE_ON_POWER_UP = 0b100    # Bit 2: set pin to ACTIVE upon power-up
+    """The pin is set to ON on power-up."""
 
 
 class TurnoutControl(StrEnum):

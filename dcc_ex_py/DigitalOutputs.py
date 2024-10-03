@@ -7,22 +7,31 @@ class DigitalOutput:
     """Represents a single digital output that can be monitored.
     """
 
-    def __init__(self, id: int, pin: int, iflag: IFlag) -> None:
-        """Instantiates a digital output when we first learn about it either because we created it or the command station told us about it.
+    def __init__(self, digitalOutputs: Any, id: int, pin: int, iflag: IFlag) -> None:
+        """## Internal Function, creating a new output has no meaning if called outside of the API.
+        Instantiates a digital output when we first learn about it either because we created it or the command station told us about it.
         If we don't know this information at creation time, temporary values will be used and they will be filled in later.
 
+        :param digitalOutputs: The local DigitalOutputs that owns this output, used for sending commands from this object.
         :param id: The internal id of this output.
         :param pin: The digital output pin on the arduino used by this output.
         :param iflag: The flags defining the behavior of this output.
         """
-        #: The internal id of this output.
+
+        self.digitalOutputs: DigitalOutputs = digitalOutputs
+        """An internal reference to our own outputs so they can be controlled from this local instance."""
+
         self.id: int = id
-        #: The pin on the arduino used by this output.
+        """The internal id of this output."""
+
         self.pin: int = pin
-        #: The iflag defining special behavior of this output.
+        """The pin on the arduino used by this output."""
+
         self.iflag: IFlag = iflag
-        #: Whether this output is active or not.
+        """The iflag defining special behavior of this output."""
+
         self.state: ActiveState = ActiveState.OFF
+        """Whether this output is active or not."""
 
     # Happens when we first learn about this output because of a state change instead of a full definition
     def _pin_and_flag_later(self, pin: int, iflag: IFlag) -> None:
@@ -40,6 +49,14 @@ class DigitalOutput:
         :param state: The updated state of this digital pin.
         """
         self.state = state
+
+    def set_state(self, state: ActiveState) -> None:
+        """Turn the output pin on or off.
+
+        :param state: The desired state of this digital pin.
+        """
+        # Of note, we don't update our local state here, that still comes from feedback from the server.
+        self.digitalOutputs.set_output_pin(self.id, state)
 
 
 class DigitalOutputs:
@@ -69,7 +86,7 @@ class DigitalOutputs:
         """
         self.controller.send_command(f"<Z {id} {pin} {str(flags)}>")
 
-        self.outputs[id] = DigitalOutput(id, pin, flags)
+        self.outputs[id] = DigitalOutput(self, id, pin, flags)
         return self.outputs[id]
 
     def delete_output_pin(self, id: int) -> None:
@@ -102,7 +119,7 @@ class DigitalOutputs:
             if command.args == 4:  # Full definition
                 id: int = int(command.args[0])
                 if id not in self.outputs:
-                    self.outputs[id] = DigitalOutput(id, int(command.args[1]), IFlag(int(command.args[2])))
+                    self.outputs[id] = DigitalOutput(self, id, int(command.args[1]), IFlag(int(command.args[2])))
                 else:
                     self.outputs[id]._pin_and_flag_later(int(command.args[1]), IFlag(int(command.args[2])))
 
@@ -111,5 +128,5 @@ class DigitalOutputs:
             elif command.args == 2:  # State update successful
                 id: int = int(command.args[0])
                 if id not in self.outputs:
-                    self.outputs[id] = DigitalOutput(id, 0, IFlag.DEFAULT_ACTIVE)
+                    self.outputs[id] = DigitalOutput(self, id, 0, IFlag.FORWARD_OPERATION)
                 self.outputs[id]._set_state(ActiveState(command.args[1]))

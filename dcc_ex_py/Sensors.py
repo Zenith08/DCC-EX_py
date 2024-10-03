@@ -7,21 +7,26 @@ class Sensor:
     """Represents a single sensor that can be monitored."""
 
     def __init__(self, id: int, pin: int, inverted: bool) -> None:
-        """Instantiates a Sensor when we first learn about it either because we created it or the command station told us about it.
+        """## Internal Function, creating a new sensor has no meaning outside of the API.
+        Instantiates a Sensor when we first learn about it either because we created it or the command station told us about it.
         If we don't know this information at creation time, temporary values will be used and they will be filled in later.
 
         :param id: The internal id of this sensor.
         :param pin: The digital pin on the arduino used by this sensor.
         :param inverted: Whether the sensor has been digitally inverted by the command station or not.
         """
-        #: The id of this sensor.
+
         self.id: int = id
-        #: The digital pin on the arduino used by this sensor.
+        """The id of this sensor."""
+
         self.pin: int = pin
-        #: Whether or not the command station is inverting this sensor.
+        """The digital pin on the arduino used by this sensor."""
+
         self.inverted: bool = inverted
-        #: Whether or not this sensor is detecting a train.
+        """Whether or not the command station is inverting this sensor."""
+
         self.active: bool = False
+        """Whether or not this sensor is detecting a train."""
 
     def _pin_and_inverted_later(self, pin: int, inverted: bool) -> None:
         """An internal initialization function triggered when we don't know all of the information about this pin on instantiation.
@@ -55,8 +60,10 @@ class Sensors:
 
         self.controller.add_command_listener(self._command_received)
 
-    def define_sensor(self, id: int, pin: int, inverted: bool) -> None:
+    def define_sensor(self, id: int, pin: int, inverted: bool) -> Sensor:
         """Defines a new sensor with the command station based on the given information.
+        Returns the sensor created. However, does not check the return value from the server, it may not be initialized by the time it is recieved.
+        This can be checked with has_sensor.
 
         :param id: The internal id of the sensor.
         :param pin: The digital pin on the Arduino used by this sensor.
@@ -67,6 +74,9 @@ class Sensors:
             pullup = "1"
 
         self.controller.send_command(f"<S {id} {pin} {pullup}>")
+
+        self.sensors[id] = Sensor(id, pin, inverted)
+        return self.sensors[id]
 
     def delete_sensor(self, id: int) -> None:
         """Requests a sensor be deleted from the command station.
@@ -87,13 +97,13 @@ class Sensors:
         """
         return id in self.sensors
 
-    def get_sensor(self, id: int) -> Optional[Sensor]:
-        """Returns the local representation of the target sensor, or None if it doesn't exist.
+    def get_sensor(self, id: int) -> Sensor:
+        """Returns the local representation of the target sensor, or an invalid sensor if it doesn't exist.
 
         :param id: The id of the sensor to get.
-        :returns: The local sensor if present, None otherwise.
+        :returns: The local sensor if present, a new Sensor with id -1 otherwise.
         """
-        return self.sensors.get(id, None)
+        return self.sensors.get(id, Sensor(-1, -1, False))
 
     def refresh_sensors(self) -> None:
         """Asks the command station to inform us of all currently connected sensors and their states.
