@@ -24,7 +24,9 @@ class DCCEX:
         :param port: The numeric port to connect on, usually 2560.
         """
         # Internal prep
+        print("Make DCC-EX")
         self._init_sockets(ip, port)
+        self._init_listener()
         self._onPacketReceived: List[Callable[[DecodedCommand], None]] = []
 
         # Wrappers for extra functionality
