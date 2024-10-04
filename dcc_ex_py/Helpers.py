@@ -13,7 +13,6 @@ class DecodedCommand:
 
         self.raw_cmd: bytes = command
         """The raw bytes of the command received."""
-
         self.str_command: str = command.decode()
         """The decoded string of the command received."""
 
@@ -21,7 +20,6 @@ class DecodedCommand:
 
         self.command: str = properties[0]
         """The first character/op code of the command received."""
-
         self.args: list[str] = properties[1:]
         """The remaining arguments (without op code) sent by the command station."""
 

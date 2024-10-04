@@ -15,12 +15,12 @@ class Memory:
         from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
-        #: The number of turnouts saved when the EEPROM was most recently saved. 0 if memory has not been saved.
         self.nTurnoutsSaved: int = 0
-        #: The number of sensors saved when the EEPROM was most recently saved. 0 if memory has not been saved.
+        """The number of turnouts saved when the EEPROM was most recently saved. 0 if memory has not been saved."""
         self.nSensorsSaved: int = 0
-        #: The number of digital outputs saved when the EEPROM was most recently saved. 0 if memory has not been saved.
+        """The number of sensors saved when the EEPROM was most recently saved. 0 if memory has not been saved."""
         self.nOutputsSaved: int = 0
+        """The number of digital outputs saved when the EEPROM was most recently saved. 0 if memory has not been saved."""
 
         self.controller.add_command_listener(self._command_received)
 

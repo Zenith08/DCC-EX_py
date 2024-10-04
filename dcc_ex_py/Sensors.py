@@ -19,13 +19,10 @@ class Sensor:
 
         self.id: int = id
         """The id of this sensor."""
-
         self.pin: int = pin
         """The digital pin on the arduino used by this sensor."""
-
         self.inverted: bool = inverted
         """Whether or not the command station is inverting this sensor."""
-
         self.active: bool = False
         """Whether or not this sensor is detecting a train."""
 

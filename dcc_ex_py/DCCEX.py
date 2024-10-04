@@ -25,7 +25,6 @@ class DCCEX:
         :param port: The numeric port to connect on, usually 2560.
         """
         # Internal prep
-        print("Make DCC-EX")
         self._init_sockets(ip, port)
         self._init_listener()
         self._onPacketReceived: List[Callable[[DecodedCommand], None]] = []
@@ -33,22 +32,16 @@ class DCCEX:
         # Wrappers for extra functionality
         self.track_power: TrackPower = TrackPower(self)
         """Wrapper for track power commands."""
-
         self.train_engines: TrainEngines = TrainEngines(self)
         """Wrapper for train engine commands."""
-
         self.accessories: Accessories = Accessories(self)
         """Wrapper for accessory decoder commands."""
-
         self.turnouts: Turnouts = Turnouts(self)
         """Wrapper for turnout commands."""
-
         self.sensors: Sensors = Sensors(self)
         """Wrapper for sensor commands."""
-
         self.digitalOutputs: DigitalOutputs = DigitalOutputs(self)
         """Wrapper for digital output commands."""
-
         self.memory: Memory = Memory(self)
         """Wrapper for memory commands."""
 

@@ -16,13 +16,10 @@ class Turnout:
 
         self.turnouts: Turnouts = turnouts
         """An internal reference to our own turnouts so we can send commands from this object."""
-
         self.id: int = id
         """The id of this turnout."""
-
         self.controlType: TurnoutControl = TurnoutControl.LCN  # placeholder since it's the least common one.
         """The method being used to control this turnout (Defaults to LCN until we are told otherwise.)"""
-
         self.thrown: TurnoutState = TurnoutState.CLOSED
         """The state the turnout is currently in (Initializes to Closed)."""
 

@@ -15,16 +15,16 @@ class TrackPower:
         from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
-        #: The status of power to the Main track.
         self.mainOn: bool = False
-        #: The status of power to the programming track.
+        """The status of power to the Main track."""
         self.progOn: bool = False
-        #: The most recent report of power draw from the main track (0 if not checked).
+        """The status of power to the programming track."""
         self.currentMain: float = 0
-        #: The most recent report of the max power draw from the main track (0 if not checked).
+        """The most recent report of power draw from the main track (0 if not checked)."""
         self.currentMax: float = 0
-        #: The most recent report of circuit trip power draw (0 if not checked).
+        """The most recent report of the max power draw from the main track (0 if not checked)."""
         self.currentTrip: float = 0
+        """The most recent report of circuit trip power draw (0 if not checked)."""
 
         self.controller.add_command_listener(self._command_received)
 

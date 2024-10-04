@@ -21,16 +21,12 @@ class DigitalOutput:
 
         self.digitalOutputs: DigitalOutputs = digitalOutputs
         """An internal reference to our own outputs so they can be controlled from this local instance."""
-
         self.id: int = id
         """The internal id of this output."""
-
         self.pin: int = pin
         """The pin on the arduino used by this output."""
-
         self.iflag: IFlag = iflag
         """The iflag defining special behavior of this output."""
-
         self.state: ActiveState = ActiveState.OFF
         """Whether this output is active or not."""
 
