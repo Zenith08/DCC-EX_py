@@ -1,12 +1,7 @@
-black
-black[jupyter]
 build
-codespell
 wheel
 flake8
 flake8-pyproject
-twine
-click
 pytest
 pytest-runner
 
@@ -14,4 +9,3 @@ sphinx
 sphinx-pyproject
 sphinx-markdown-builder
 sphinx-autodoc-typehints
-watchdog

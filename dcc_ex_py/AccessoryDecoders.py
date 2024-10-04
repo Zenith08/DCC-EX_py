@@ -1,3 +1,4 @@
+"""A module containing the Accessories helper class."""
 from typing import Any
 from .Helpers import ActiveState
 

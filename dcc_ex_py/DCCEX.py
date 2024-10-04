@@ -1,3 +1,4 @@
+"""A module containing the DCCEX object which allows connections to a DCC-EX Server."""
 import socket
 import threading
 
@@ -25,23 +26,24 @@ class DCCEX:
         """
         # Internal prep
         self._init_sockets(ip, port)
+        self._init_listener()
         self._onPacketReceived: List[Callable[[DecodedCommand], None]] = []
 
         # Wrappers for extra functionality
-        #: Wrapper for track power commands.
         self.track_power: TrackPower = TrackPower(self)
-        #: Wrapper for train engine commands.
+        """Wrapper for track power commands."""
         self.train_engines: TrainEngines = TrainEngines(self)
-        #: Wrapper for accessory decoder commands.
+        """Wrapper for train engine commands."""
         self.accessories: Accessories = Accessories(self)
-        #: Wrapper for turnout commands.
+        """Wrapper for accessory decoder commands."""
         self.turnouts: Turnouts = Turnouts(self)
-        #: Wrapper for sensor commands.
+        """Wrapper for turnout commands."""
         self.sensors: Sensors = Sensors(self)
-        #: Wrapper for digital output commands.
-        self.gpio: DigitalOutputs = DigitalOutputs(self)
-        #: Wrapper for memory commands.
+        """Wrapper for sensor commands."""
+        self.digitalOutputs: DigitalOutputs = DigitalOutputs(self)
+        """Wrapper for digital output commands."""
         self.memory: Memory = Memory(self)
+        """Wrapper for memory commands."""
 
     def _listener(self) -> None:
         """Internal function where a listener thread waits to recieve messages from the server.

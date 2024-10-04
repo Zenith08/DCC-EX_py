@@ -1,4 +1,5 @@
-from enum import IntFlag, auto, StrEnum
+"""Holds a collection of Enums and Types used to make function arguments human readable and enable strong type hint support."""
+from enum import IntFlag, StrEnum
 
 
 class DecodedCommand:
@@ -9,17 +10,18 @@ class DecodedCommand:
 
         :param command: The raw bytes of the command received.
         """
-        #: The raw bytes of the command received.
+
         self.raw_cmd: bytes = command
-        #: The decoded string of the command received.
+        """The raw bytes of the command received."""
         self.str_command: str = command.decode()
+        """The decoded string of the command received."""
 
-        properties: list[str] = self.str_command.strip("<>").split(" ")
+        properties: list[str] = self.str_command.strip("<>\n").split(" ")
 
-        #: The first character/op code of the command received.
         self.command: str = properties[0]
-        #: The remaining arguments (without op code) sent by the command station.
+        """The first character/op code of the command received."""
         self.args: list[str] = properties[1:]
+        """The remaining arguments (without op code) sent by the command station."""
 
 
 class ActiveState(StrEnum):
@@ -51,9 +53,20 @@ class IFlag(IntFlag):
     See DCC-EX documentation for more.
     """
 
-    INVERTED = auto()
-    DONT_RESTORE = auto()
-    DEFAULT_ACTIVE = auto()
+    FORWARD_OPERATION = 0b000  # Bit 0: forward operation
+    """The pin operates normally, ON = High, OFF = Low."""
+    INVERTED_OPERATION = 0b001  # Bit 0: inverted operation
+    """The pin is inverted, ON = Low, OFF = High."""
+
+    RESTORE_STATE_ON_POWER_UP = 0b000  # Bit 1: restore state on power-up
+    """The state of the pin is saved to EEPROM and is restored on power-up."""
+    SET_STATE_ON_POWER_UP = 0b010      # Bit 1: set state on power-up based on bit 2
+    """The pin is set to a default state on power-up."""
+
+    INACTIVE_ON_POWER_UP = 0b000  # Bit 2: set pin to INACTIVE upon power-up
+    """The pin is set to OFF on power-up."""
+    ACTIVE_ON_POWER_UP = 0b100    # Bit 2: set pin to ACTIVE upon power-up
+    """The pin is set to ON on power-up."""
 
 
 class TurnoutControl(StrEnum):
