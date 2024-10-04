@@ -1,5 +1,4 @@
 """A module containing the TrackPower helper class."""
-
 from typing import Any
 from .Helpers import ActiveState, DecodedCommand, Track
 

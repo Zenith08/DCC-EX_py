@@ -1,5 +1,4 @@
 """Holds a collection of Enums and Types used to make function arguments human readable and enable strong type hint support."""
-
 from enum import IntFlag, StrEnum
 
 

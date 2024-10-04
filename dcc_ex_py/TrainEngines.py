@@ -1,5 +1,4 @@
 """A module containing the TrainEngines helper class and the TrainEngine representation."""
-
 from typing import Any
 from .Helpers import DecodedCommand, Direction, ActiveState
 
