@@ -1,3 +1,5 @@
+"""A module containing the DigitalOutputs helper class and Digital Output representation."""
+
 from typing import Any
 
 from .Helpers import ActiveState, DecodedCommand, IFlag

@@ -1,3 +1,4 @@
+"""A module containing the Sensors helper class and the Sensor representation."""
 from typing import Any
 
 from .Helpers import DecodedCommand

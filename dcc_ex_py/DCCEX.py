@@ -1,3 +1,5 @@
+"""A module containing the DCCEX object which allows connections to a DCC-EX Server."""
+
 import socket
 import threading
 

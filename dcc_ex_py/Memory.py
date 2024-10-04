@@ -1,3 +1,5 @@
+"""A module containing the Memory helper class."""
+
 from typing import Any
 
 from .Helpers import DecodedCommand

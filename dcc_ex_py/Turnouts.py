@@ -1,3 +1,4 @@
+"""A module containing the Turnouts helper class and Turnout representation."""
 from typing import Any
 
 from .Helpers import DecodedCommand, TurnoutControl, TurnoutProfiles, TurnoutState
