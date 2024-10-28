@@ -17,6 +17,7 @@ jobs:
                 config:
                     - { os: ubuntu-latest, py: "3.11" }
                     - { os: ubuntu-latest, py: "3.12" }
+                    - { os: ubuntu-latest, py: "3.13" }
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
@@ -38,6 +39,6 @@ jobs:
                   pip install --user -r requirements.txt
                   pip install --user -r requirements_dev.txt
                   pip install .
-            - name: PKG-TEST
+            - name: Run Tests
               run: |
-                  pytest ./tests
+                  pytest ./tests -Werror

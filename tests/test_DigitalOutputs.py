@@ -7,7 +7,7 @@ from dcc_ex_py.Helpers import IFlag
 
 @pytest.fixture
 def mock_ex() -> MockDCCEX:
-    return MockDCCEX('192.168.4.1', 2560)
+    return MockDCCEX()
 
 
 def test_create_output_pin(mock_ex):

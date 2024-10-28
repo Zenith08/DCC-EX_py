@@ -2,6 +2,8 @@ build
 wheel
 flake8
 flake8-pyproject
+flake8-pytest-style
+
 pytest
 pytest-runner
 

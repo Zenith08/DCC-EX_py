@@ -6,7 +6,7 @@ from dcc_ex_py.Memory import Memory
 
 @pytest.fixture
 def mock_ex() -> MockDCCEX:
-    return MockDCCEX('192.168.4.1', 2560)
+    return MockDCCEX()
 
 
 def test_memory_save_command(mock_ex):

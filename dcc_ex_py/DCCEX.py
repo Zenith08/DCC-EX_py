@@ -18,16 +18,19 @@ class DCCEX:
     """Defines a connection to a DCC-EX server and provides interfaces for interacting with the different capabilities supported by the hardware.
     """
 
-    def __init__(self, ip: str, port: int) -> None:
+    def __init__(self, ip: str, port: int, testMode: bool = False) -> None:
         """Create a new connection to a DCC-EX Server
 
         :param ip: The (local) ip address of the server to connect to. If you haven't set this, it is probably '192.168.4.1'
         :param port: The numeric port to connect on, usually 2560.
+        :param testMode: Used by the PyTest system to disable networking. Should be set to False for normal operation.
         """
         # Internal prep
-        self._init_sockets(ip, port)
-        self._init_listener()
         self._onPacketReceived: List[Callable[[DecodedCommand], None]] = []
+        self._listener_running = False
+        if not testMode:
+            self._init_sockets(ip, port)
+            self._init_listener()
 
         # Wrappers for extra functionality
         self.track_power: TrackPower = TrackPower(self)
@@ -48,12 +51,17 @@ class DCCEX:
     def _listener(self) -> None:
         """Internal function where a listener thread waits to recieve messages from the server.
         """
-        while True:
-            message: bytes = self.client_socket.recv(1024)
-            decodedMsg: DecodedCommand = DecodedCommand(message)
+        self._listener_running = True
+        self.client_socket.settimeout(1.0)
+        while self._listener_running:
+            try:
+                message: bytes = self.client_socket.recv(1024)
+                decodedMsg: DecodedCommand = DecodedCommand(message)
 
-            for listener in self._onPacketReceived:
-                listener(decodedMsg)
+                for listener in self._onPacketReceived:
+                    listener(decodedMsg)
+            except socket.timeout:
+                pass
 
     def _init_listener(self) -> None:
         """Internal function to start the listener thread.
@@ -92,3 +100,8 @@ class DCCEX:
         :param callback: The callback function to remove.
         """
         self._onPacketReceived.remove(callback)
+    
+    def quit(self) -> None:
+        self._listener_running = False
+        self.listener_thread.join()
+        self.client_socket.close()
