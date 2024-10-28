@@ -15,6 +15,7 @@ def mock_server():
     yield server
     server.stop()
 
+
 def test_dccex_connection(mock_server):
     client: DCCEX = DCCEX("127.0.0.1", 9999)
     assert client is not None

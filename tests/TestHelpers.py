@@ -18,6 +18,7 @@ class MockDCCEX(DCCEX):
     def send_command(self, command: str) -> None:
         self.last_command_received = command
 
+
 # ChatGPT code
 class MockTCPServer:
     def __init__(self, host: str = '127.0.0.1', port: int = 8888) -> None:
@@ -57,7 +58,6 @@ class MockTCPServer:
     def send(self, data: str):
         if self.client_socket is not None:
             self.client_socket.send(data.encode())
-
 
     def stop(self) -> None:
         self.running = False
