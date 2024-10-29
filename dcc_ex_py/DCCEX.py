@@ -101,7 +101,6 @@ class DCCEX:
         """
         self._onPacketReceived.remove(callback)
 
-
     def quit(self) -> None:
         self._listener_running = False
         self.listener_thread.join()
