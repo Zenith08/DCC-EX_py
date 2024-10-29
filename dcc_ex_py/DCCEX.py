@@ -25,11 +25,16 @@ class DCCEX:
         :param port: The numeric port to connect on, usually 2560.
         :param testMode: Used by the PyTest system to disable networking. Should be set to False for normal operation.
         """
+        self.ip: str = ip
+        """The ip address of the DCC-EX server this instance is connected to."""
+        self.port: int = port
+        """The port of the DCC-EX server this instance is connected to."""
+
         # Internal prep
         self._onPacketReceived: List[Callable[[DecodedCommand], None]] = []
         self._listener_running = False
         if not testMode:
-            self._init_sockets(ip, port)
+            self._init_sockets()
             self._init_listener()
 
         # Wrappers for extra functionality
@@ -52,10 +57,10 @@ class DCCEX:
         """Internal function where a listener thread waits to recieve messages from the server.
         """
         self._listener_running = True
-        self.client_socket.settimeout(1.0)
+        self._client_socket.settimeout(1.0)
         while self._listener_running:
             try:
-                message: bytes = self.client_socket.recv(1024)
+                message: bytes = self._client_socket.recv(1024)
                 decodedMsg: DecodedCommand = DecodedCommand(message)
 
                 for listener in self._onPacketReceived:
@@ -66,17 +71,14 @@ class DCCEX:
     def _init_listener(self) -> None:
         """Internal function to start the listener thread.
         """
-        self.listener_thread: threading.Thread = threading.Thread(target=self._listener, daemon=True)
-        self.listener_thread.start()
+        self._listener_thread: threading.Thread = threading.Thread(target=self._listener, daemon=True)
+        self._listener_thread.start()
 
-    def _init_sockets(self, ip: str, port: int) -> None:
+    def _init_sockets(self) -> None:
         """Internal function to create socket objects and connect to the server.
         """
-        self.ip: str = ip
-        self.port: int = port
-
-        self.client_socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_socket.connect((ip, port))
+        self._client_socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._client_socket.connect((self.ip, self.port))
 
     def send_command(self, command: str) -> None:
         """Send a string command to the DCC-EX Controller. Note that the command is not validated, a newline is added to the end of it though.
@@ -85,7 +87,7 @@ class DCCEX:
         :param command: The string command to be sent to DCC-EX
         """
         command += '\n'
-        self.client_socket.sendall(command.encode())
+        self._client_socket.sendall(command.encode())
 
     def add_command_listener(self, callback: Callable[[DecodedCommand], None]) -> None:
         """Register a callback function to be called if we receive input from the DCC-EX Controller.
@@ -102,6 +104,8 @@ class DCCEX:
         self._onPacketReceived.remove(callback)
 
     def quit(self) -> None:
+        """Gracefully shut down the connection to DCC-EX by stopping the listener thread and closing the socket.
+        """
         self._listener_running = False
-        self.listener_thread.join()
-        self.client_socket.close()
+        self._listener_thread.join()
+        self._client_socket.close()
