@@ -164,7 +164,6 @@ class Turnouts:
         :param id: The id of the turnout to delete.
         """
         self.controller.send_command(f"<T {id}>")
-
         self.turnouts.pop(id, None)
 
     def refresh_turnouts(self) -> None:

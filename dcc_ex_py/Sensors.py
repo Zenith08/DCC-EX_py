@@ -82,9 +82,7 @@ class Sensors:
         :param id: The id of the sensor to delete.
         """
         self.controller.send_command(f"<S {id}>")
-
-        if id in self.sensors:
-            self.sensors.pop(id, None)
+        self.sensors.pop(id, None)
 
     def has_sensor(self, id: int) -> bool:
         """Checks if we have local knowledge of the given sensor.

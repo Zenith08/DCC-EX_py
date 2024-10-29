@@ -33,6 +33,9 @@ class Memory:
         """Requests the command station deletes the EEPROM memory.
         """
         self.controller.send_command("<e>")
+        self.nTurnoutsSaved = 0
+        self.nSensorsSaved = 0
+        self.nOutputsSaved = 0
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.

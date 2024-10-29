@@ -1,7 +1,9 @@
 import pytest
 
+from dcc_ex_py.Helpers import DecodedCommand
+
 from .TestHelpers import MockDCCEX
-from dcc_ex_py.Sensors import Sensors
+from dcc_ex_py.Sensors import Sensors, Sensor
 
 
 @pytest.fixture
@@ -9,8 +11,65 @@ def mock_ex() -> MockDCCEX:
     return MockDCCEX()
 
 
+def test_create_sensor(mock_ex):
+    sensors: Sensors = Sensors(mock_ex)
+
+    sensor: Sensor = sensors.define_sensor(1, 36, False)
+    assert mock_ex.last_command_received == "<S 1 36 0>"
+    assert sensor is not None
+    assert sensor.id == 1
+    assert sensor.pin == 36
+    assert not sensor.inverted
+    assert not sensor.active
+
+    assert sensor == sensors.get_sensor(1)
+
+
+def test_get_nonexistent_sensor(mock_ex):
+    sensors: Sensors = Sensors(mock_ex)
+
+    nonSensor: Sensor = sensors.get_sensor(1)
+    assert nonSensor.id == -1
+    assert nonSensor.pin == -1
+
+
 def test_delete_sensor(mock_ex):
     sensors: Sensors = Sensors(mock_ex)
 
+    sensors.define_sensor(2, 25, False)
+    assert sensors.get_sensor(2).id == 2
+
     sensors.delete_sensor(2)
     assert mock_ex.last_command_received == "<S 2>"
+
+    assert sensors.get_sensor(2).id == -1
+
+
+def test_get_sensor_info(mock_ex):
+    sensors: Sensors = Sensors(mock_ex)
+
+    defineFullSensor: DecodedCommand = DecodedCommand("<Q 3 35 0>\n".encode())
+    sensors._command_received(defineFullSensor)
+
+    sensor3: Sensor = sensors.get_sensor(3)
+    assert sensor3.id == 3
+    assert sensor3.pin == 35
+
+    assert not sensor3.active
+
+    updateState: DecodedCommand = DecodedCommand("<Q 3>\n".encode())
+    sensors._command_received(updateState)
+
+    assert sensor3.active
+
+    newSensorState: DecodedCommand = DecodedCommand("<q 4>\n".encode())
+    sensors._command_received(newSensorState)
+
+    sensor4: Sensor = sensors.get_sensor(4)
+    assert sensor4.id == 4
+    assert sensor4.pin == 0
+
+    fillin: DecodedCommand = DecodedCommand("<Q 4 33 0>\n".encode())
+    sensors._command_received(fillin)
+
+    assert sensor4.pin == 33

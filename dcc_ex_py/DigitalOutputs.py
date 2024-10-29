@@ -113,7 +113,7 @@ class DigitalOutputs:
         :param command: The command we received after parsing it into a helper class.
         """
         if command.command == 'Y':
-            if command.args == 4:  # Full definition
+            if len(command.args) == 4:  # Full definition
                 id: int = int(command.args[0])
                 if id not in self.outputs:
                     self.outputs[id] = DigitalOutput(self, id, int(command.args[1]), IFlag(int(command.args[2])))
@@ -122,7 +122,7 @@ class DigitalOutputs:
 
                 self.outputs[id]._set_state(ActiveState(command.args[3]))
 
-            elif command.args == 2:  # State update successful
+            elif len(command.args) == 2:  # State update successful
                 id: int = int(command.args[0])
                 if id not in self.outputs:
                     self.outputs[id] = DigitalOutput(self, id, 0, IFlag.FORWARD_OPERATION)
