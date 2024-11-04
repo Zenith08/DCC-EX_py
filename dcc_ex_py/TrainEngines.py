@@ -133,6 +133,18 @@ class TrainEngines:
         """
         self.controller.send_command(f"<F {cab} {function} {on}>")
 
+    def get_engine(self, cab: int) -> TrainEngine:
+        """Gets the local representation of the target train engine if one exists.
+        If it does not exist, creates one and sets it up to have its details filled in later.
+
+        :param cab: The DCC address of the target train.
+        :returns: The local representation of the train engine at the given address.
+        """
+        if cab not in self.engines:
+            self.engines[cab] = TrainEngine(self, cab)
+
+        return self.engines[cab]
+
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
 

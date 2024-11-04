@@ -121,3 +121,34 @@ def test_loco_self_control(mock_ex):
 
     engine.set_function(2, ActiveState.ON)
     assert mock_ex.last_command_received == "<F 1 2 1>"
+
+
+def test_get_engine(mock_ex):
+    engines: TrainEngines = TrainEngines(mock_ex)
+
+    engine1: TrainEngine = engines.get_engine(1)
+
+    assert engine1 is not None
+    assert engine1 == engines.engines[1]
+    assert engine1.functions == 0
+
+    engineInfo: DecodedCommand = DecodedCommand("<l 1 1 128 0>\n".encode())
+    engines._command_received(engineInfo)
+
+    assert engine1.direction == Direction.FORWARD
+    assert engine1.speed == 0
+    assert engine1.functions == 0
+
+    engine2Info: DecodedCommand = DecodedCommand("<l 2 1 128 3>\n".encode())
+    engines._command_received(engine2Info)
+
+    assert 2 in engines.engines
+
+    engine2: TrainEngine = engines.get_engine(2)
+
+    assert engine2 == engines.engines[2]
+    assert engine2.cab == 2
+    assert engine2.direction == Direction.FORWARD
+    assert engine2.get_function(0) == ActiveState.ON
+    assert engine2.get_function(1) == ActiveState.ON
+    assert engine2.get_function(2) == ActiveState.OFF
