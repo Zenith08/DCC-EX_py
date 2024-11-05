@@ -1,3 +1,4 @@
+"""A module containing the Memory helper class."""
 from typing import Any
 
 from .Helpers import DecodedCommand
@@ -14,12 +15,12 @@ class Memory:
         from .DCCEX import DCCEX
         self.controller: DCCEX = controller
 
-        #: The number of turnouts saved when the EEPROM was most recently saved. 0 if memory has not been saved.
         self.nTurnoutsSaved: int = 0
-        #: The number of sensors saved when the EEPROM was most recently saved. 0 if memory has not been saved.
+        """The number of turnouts saved when the EEPROM was most recently saved. 0 if memory has not been saved."""
         self.nSensorsSaved: int = 0
-        #: The number of digital outputs saved when the EEPROM was most recently saved. 0 if memory has not been saved.
+        """The number of sensors saved when the EEPROM was most recently saved. 0 if memory has not been saved."""
         self.nOutputsSaved: int = 0
+        """The number of digital outputs saved when the EEPROM was most recently saved. 0 if memory has not been saved."""
 
         self.controller.add_command_listener(self._command_received)
 
@@ -32,6 +33,9 @@ class Memory:
         """Requests the command station deletes the EEPROM memory.
         """
         self.controller.send_command("<e>")
+        self.nTurnoutsSaved = 0
+        self.nSensorsSaved = 0
+        self.nOutputsSaved = 0
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.

@@ -1,1 +1,1 @@
-"""Unit test package for dcc_ex_py."""
+"""Unit test module for dcc_ex_py."""

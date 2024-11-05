@@ -1,4 +1,4 @@
-name: Test the Wiki Documentation Builds
+name: Test the Wiki Documentation Build
 
 on:
     push:
