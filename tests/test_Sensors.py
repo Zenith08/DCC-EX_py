@@ -73,3 +73,41 @@ def test_get_sensor_info(mock_ex):
     sensors._command_received(fillin)
 
     assert sensor4.pin == 33
+
+
+def test_callbacks(mock_ex):
+    sensors: Sensors = Sensors(mock_ex)
+
+    global globalCallbackRan
+    global localCallbackRan
+
+    globalCallbackRan = False
+
+    def global_sensor_callback(sensor: Sensor, id: int, state: bool) -> None:
+        assert id == 2
+        assert state is True
+        assert sensor.id == 2
+        global globalCallbackRan
+        globalCallbackRan = True
+
+    sensors.sensor_changed.append(global_sensor_callback)
+
+    sensor2Active: DecodedCommand = DecodedCommand("<Q 2>\n".encode())
+    sensors._command_received(sensor2Active)
+
+    assert 2 in sensors.sensors
+    assert globalCallbackRan is True
+
+    localCallbackRan = False
+
+    def local_sensor_callback(sensor: Sensor, active: bool) -> None:
+        assert sensor.id == 2
+        assert active is True
+        global localCallbackRan
+        localCallbackRan = True
+
+    sensors.sensors[2].state_change.append(local_sensor_callback)
+
+    sensors._command_received(sensor2Active)
+
+    assert localCallbackRan is True

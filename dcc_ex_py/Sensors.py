@@ -1,5 +1,5 @@
 """A module containing the Sensors helper class and the Sensor representation."""
-from typing import Any
+from typing import Any, Callable
 
 from .Helpers import DecodedCommand
 
@@ -25,6 +25,9 @@ class Sensor:
         """Whether or not the command station is inverting this sensor."""
         self.active: bool = False
         """Whether or not this sensor is detecting a train."""
+        self.state_change: list[Callable[[Sensor, bool], None]] = []
+        """A set of listeners that will be called when this sensor changes state.
+        The function receives this Sensor and a bool of whether the sensor is active."""
 
     def _pin_and_inverted_later(self, pin: int, inverted: bool) -> None:
         """An internal initialization function triggered when we don't know all of the information about this pin on instantiation.
@@ -41,6 +44,8 @@ class Sensor:
         :param active: Whether the sensor is currently detecting a train or not.
         """
         self.active = active
+        for listener in self.state_change:
+            listener(self, self.active)
 
 
 class Sensors:
@@ -55,6 +60,10 @@ class Sensors:
         from .DCCEX import DCCEX
         self.controller: DCCEX = controller
         self.sensors: dict[int, Sensor] = {}
+        """The local representation of each known sensor."""
+
+        self.sensor_changed: list[Callable[[Sensor, int, bool], None]] = []
+        """A list of callbacks called whenever a sensor state changes."""
 
         self.controller.add_command_listener(self._command_received)
 
@@ -126,9 +135,16 @@ class Sensors:
                 if id not in self.sensors:
                     self.sensors[id] = Sensor(id, 0, False)
                 self.sensors[id]._set_state(True)
-        elif command.command == 'q':
+
+                self._trigger_callbacks(self.sensors[id], id, True)
+        elif command.command == 'q':  # State update not active
             id: int = int(command.args[0])
             if id not in self.sensors:
                 self.sensors[id] = Sensor(id, 0, False)
-
             self.sensors[id]._set_state(False)
+
+            self._trigger_callbacks(self.sensors[id], id, False)
+
+    def _trigger_callbacks(self, sensor: Sensor, id: int, active: bool):
+        for callback in self.sensor_changed:
+            callback(sensor, id, active)
