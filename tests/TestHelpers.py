@@ -65,3 +65,26 @@ class MockTCPServer:
             self.client_socket.close()
         if self.server_socket:
             self.server_socket.close()
+
+
+# ChatGPT Code
+class MockCallback:
+    """A simple implementation of callback functionality for programmer testing. Used here to avoid adding unittest as a dependency."""
+    def __init__(self):
+        self.calls: list[tuple] = []  # Store a list of calls
+
+    def __call__(self, *args, **kwargs):
+        self.calls.append((args, kwargs))  # Record each call
+
+    def assert_called_once_with(self, *expected_args, **expected_kwargs):
+        if len(self.calls) != 1:
+            raise AssertionError(f"Expected to be called once, but was called {len(self.calls)} times")
+        if self.calls[0] != (expected_args, expected_kwargs):
+            raise AssertionError(
+                f"Expected to be called with {expected_args}, {expected_kwargs}, "
+                f"but was called with {self.calls[0]}"
+            )
+
+    def assert_not_called(self):
+        if len(self.calls) != 0:
+            raise AssertionError(f"Expected to not be called but called {len(self.calls)} times")
