@@ -12,6 +12,7 @@ from .Turnouts import Turnouts
 from .Sensors import Sensors
 from .DigitalOutputs import DigitalOutputs
 from .Memory import Memory
+from .CVProgrammer import CVProgrammer
 
 
 class DCCEX:
@@ -52,6 +53,8 @@ class DCCEX:
         """Wrapper for digital output commands."""
         self.memory: Memory = Memory(self)
         """Wrapper for memory commands."""
+        self.programming: CVProgrammer = CVProgrammer(self)
+        """Wrapper for CV programming commands."""
 
     def _listener(self) -> None:
         """Internal function where a listener thread waits to recieve messages from the server.
