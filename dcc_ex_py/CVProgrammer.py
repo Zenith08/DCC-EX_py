@@ -30,7 +30,7 @@ class ExpectedCallback:
         """
         if self.cmdKey == response.command and self.expectedArgs == len(response.args) and self.callback is not None:
             args: list[int] = [int(item) for item in response.args]
-            
+
             # Python thing, the list is passed as the arguments instead of as a list[str]
             self.callback(*args)
             return True

@@ -19,7 +19,7 @@ def test_callback_receiver_valid():
     assert callbackStore.callback == callbackMock
     callbackMock.assert_not_called()
 
-    assert True == callbackStore._response_received(DecodedCommand("<a 10>\n".encode()))
+    assert callbackStore._response_received(DecodedCommand("<a 10>\n".encode())) is True
     callbackMock.assert_called_once_with(10)
 
     callbackMock2: MockCallback = MockCallback()
@@ -30,7 +30,7 @@ def test_callback_receiver_valid():
     assert callbackStore2.callback == callbackMock2
     callbackMock2.assert_not_called()
 
-    assert True == callbackStore2._response_received(DecodedCommand("<r -1 2 3 -4>\n".encode()))
+    assert callbackStore2._response_received(DecodedCommand("<r -1 2 3 -4>\n".encode())) is True
     callbackMock2.assert_called_once_with(-1, 2, 3, -4)
 
 
@@ -44,19 +44,19 @@ def test_callback_receiver_invalid():
     callbackMock.assert_not_called()
 
     # Wrong key, wrong number of args
-    assert callbackStore._response_received(DecodedCommand("<b 3 4>\n".encode())) == False
+    assert callbackStore._response_received(DecodedCommand("<b 3 4>\n".encode())) is False
     callbackMock.assert_not_called()
 
     # Wrong key, right number of args
-    assert callbackStore._response_received(DecodedCommand("<b 1>\n".encode())) == False
+    assert callbackStore._response_received(DecodedCommand("<b 1>\n".encode())) is False
     callbackMock.assert_not_called()
 
     # Right key, wrong number of args
-    assert callbackStore._response_received(DecodedCommand("<a 2 3>\n".encode())) == False
+    assert callbackStore._response_received(DecodedCommand("<a 2 3>\n".encode())) is False
     callbackMock.assert_not_called()
 
     # Right key, right number of args
-    assert callbackStore._response_received(DecodedCommand("<a 3>\n".encode())) == True
+    assert callbackStore._response_received(DecodedCommand("<a 3>\n".encode())) is True
     callbackMock.assert_called_once_with(3)
 
 
