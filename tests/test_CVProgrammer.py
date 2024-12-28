@@ -15,4 +15,3 @@ def test_set_cv_bit_main(mock_ex: MockDCCEX):
 
     programmer.write_cv_bit_main(1, 29, 2, ActiveState.ON)
     assert mock_ex.last_command_received == "<b 1 29 2 1>"
-
