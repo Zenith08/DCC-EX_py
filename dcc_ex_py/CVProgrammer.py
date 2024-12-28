@@ -7,6 +7,7 @@ from dcc_ex_py.Helpers import ActiveState, DecodedCommand
 
 class ExpectedCallback:
     """Internal representation of a query that has been sent to the programming track and is expecting a callback.
+    All arguments are converted to ints before being sent.
 
     :param expectedCmd: The character at the start of the response we are expecting. Other responses will be ignored.
     :param callback: The callback command to invoke.
@@ -21,13 +22,17 @@ class ExpectedCallback:
 
     def _response_received(self, response: DecodedCommand) -> bool:
         """Called when a given command is received, invokes the callback assigned.
+        Arguments converted to ints before being passed to the function.
 
         :param response: The full command that has been received.
 
-        :return: True if this callback consumes the command."""
+        :return: True if this callback consumes the command.
+        """
         if self.cmdKey == response.command and self.expectedArgs == len(response.args) and self.callback is not None:
+            args: list[int] = [int(item) for item in response.args]
+            
             # Python thing, the list is passed as the arguments instead of as a list[str]
-            self.callback(*response.args)
+            self.callback(*args)
             return True
         else:
             return False
@@ -153,6 +158,6 @@ class CVProgrammer:
         for possibleCallback in self.awaitingCallbacks:
             if possibleCallback._response_received(command):
                 break
-        
+
         if callbackUsed is not None:
             self.awaitingCallbacks.remove(callbackUsed)
