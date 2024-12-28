@@ -1,0 +1,24 @@
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+name: Test on Live Hardware
+jobs:
+    test:
+        runs-on: [self-hosted]
+        name: "Live Test"
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+            - name: Install dependencies
+              run: |
+                  pip install --user -r requirements.txt
+                  pip install --user -r requirements_dev.txt
+                  pip install .
+            - name: Run Tests
+              run: |
+                  python ./live-tests/test_LiveTrain.py
