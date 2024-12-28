@@ -26,4 +26,9 @@ API
    dcc_ex_py.Helpers.TurnoutProfiles
    dcc_ex_py.Helpers.TurnoutState
 
+<<<<<<< HEAD
    dcc_ex_py.asyncsensor.AsyncSensor.AsyncSensor
+=======
+   dcc_ex_py.CVProgrammer.CVProgrammer
+   dcc_ex_py.CVProgrammer.ExpectedCallback
+>>>>>>> f50f27b (Updated spec to reflect actual responses differing from the documentation.)
