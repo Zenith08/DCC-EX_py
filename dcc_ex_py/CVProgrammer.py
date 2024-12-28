@@ -18,12 +18,12 @@ class ExpectedCallback:
         """The number of arguments expected to be received from the query."""
         self.callback: Callable[..., None] = callback
         """The callback that will be invoked when the response is retrieved."""
-    
+
     def _response_received(self, response: DecodedCommand) -> bool:
         """Called when a given command is received, invokes the callback assigned.
-        
+
         :param response: The full command that has been received.
-        
+
         :return: True if this callback consumes the command."""
         if self.cmdKey == response.command and self.expectedArgs == len(response.args) and self.callback is not None:
             # Python thing, the list is passed as the arguments instead of as a list[str]
@@ -44,10 +44,9 @@ class CVProgrammer:
         """
         from .DCCEX import DCCEX
         self.controller: DCCEX = controller
-        
+
         self.controller.add_command_listener(self._command_received)
         self.awaitingCallbacks: list[ExpectedCallback] = []
-
 
     def write_cv_bit_main(self, cab: int, cv: int, bit: int, value: ActiveState) -> None:
         """Writes a single bit of the specified CV of the specified locomotive on the main track.
@@ -59,16 +58,14 @@ class CVProgrammer:
         """
         self.controller.send_command(f"<b {cab} {cv} {bit} {value}>")
 
-
     def write_cv_main(self, cab: int, cv: int, value: int) -> None:
         """Writes a value to the specified CV of the target locomotive on the main track.
-        
+
         :param cab: The DCC address of the train to target.
         :param cv: The configuration value on the locomotive to write (1-1024).
         :param value: The value to write to the CV (0-255).
         """
         self.controller.send_command(f"<w {cab} {cv} {value}>")
-
 
     def read_cv(self, cv: int, callback: Callable[[int], None]) -> None:
         """Reads a target cv on the programming track. (Only 1 loco can be on the programming track.)
@@ -81,16 +78,14 @@ class CVProgrammer:
         if callback is not None:
             self.awaitingCallbacks.append(ExpectedCallback("r", 1, callback))
 
-
     def read_dcc_address(self, callback: Callable[[int], None]) -> None:
         """Read the DCC address in use by the locomotive. DCC-EX automatically reads the long or short address as needed.
-        
+
         :param callback: A function to be called with the read DCC address. Arguments are (address), -1 is a failure.
         """
         self.controller.send_command("<R>")
         if callback is not None:
             self.awaitingCallbacks.append(ExpectedCallback("r", 1, callback))
-
 
     def verify_cv_bit(self, cv: int, bit: int, expected: ActiveState, callback: Callable[[int, ActiveState], None]) -> None:
         """DCC-EX tests the specified bit of a cv value against the expected value and returns the true value of the CV.
@@ -106,7 +101,6 @@ class CVProgrammer:
         # TODO callback
         pass
 
-
     def verify_cv(self, cv: int, expected: int, callback: Callable[[int, int], None]) -> None:
         """DCC-EX tests the specified cv value against the expected value and returns the true value of the CV.
         Runs faster if the CV matches the expected value.
@@ -119,7 +113,6 @@ class CVProgrammer:
         if callback is not None:
             self.awaitingCallbacks.append(ExpectedCallback("v", 2, callback))
 
-
     def write_cv_bit(self, cv: int, bit: int, state: ActiveState) -> None:
         """Writes the target bit of the target CV on the programming track.
 
@@ -129,7 +122,6 @@ class CVProgrammer:
         """
         # TODO missing response info
         self.controller.send_command(f"<B {cv} {bit} {state}>")
-
 
     def write_cv(self, cv: int, value: int, callback: Callable[[int, int], None]) -> None:
         """Writes the value to the target CV on the programming track.
@@ -142,7 +134,6 @@ class CVProgrammer:
         if callback is not None:
             self.awaitingCallbacks.append(ExpectedCallback("w", 2, callback))
 
-
     def write_dcc_address(self, address: int, callback: Callable[[int], None]) -> None:
         """Writes the target DCC address to the locomotive. DCC-EX automatically selects between long and short addresses as needed.
 
@@ -153,12 +144,15 @@ class CVProgrammer:
         if callback is not None:
             self.awaitingCallbacks.append(ExpectedCallback("w", 1, callback))
 
-
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
 
         :param command: The command we received after parsing it into a helper class.
         """
+        callbackUsed: ExpectedCallback | None = None
         for possibleCallback in self.awaitingCallbacks:
             if possibleCallback._response_received(command):
                 break
+        
+        if callbackUsed is not None:
+            self.awaitingCallbacks.remove(callbackUsed)
