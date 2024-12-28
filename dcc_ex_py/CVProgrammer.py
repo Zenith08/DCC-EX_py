@@ -1,4 +1,7 @@
-"""TODO"""
+"""Provides access to CV programming functionality of DCC-EX including DCC addresses.
+Due to the different situation this is used in cmopared to train operations, callbacks are enabled for feedback from each command.
+Callbacks come from the DCC-EX listener thread, while you are using it for work no messages will be processed from the command station.
+"""
 
 from typing import Any, Callable
 
@@ -40,6 +43,7 @@ class ExpectedCallback:
 
 class CVProgrammer:
     """Wraps the CV programming functionality of the DCC-EX system.
+    All callbacks come from the DCC-EX listener thread, while you are using it for work no messages will be processed from the command station.
     """
 
     def __init__(self, controller: Any) -> None:
@@ -72,16 +76,16 @@ class CVProgrammer:
         """
         self.controller.send_command(f"<w {cab} {cv} {value}>")
 
-    def read_cv(self, cv: int, callback: Callable[[int], None]) -> None:
+    def read_cv(self, cv: int, callback: Callable[[int, int], None]) -> None:
         """Reads a target cv on the programming track. (Only 1 loco can be on the programming track.)
         Use read_dcc_address to read a locomotives address.
 
         :param cv: The CV to read (1-1024).
-        :param callback: A function to be called with the read CV value. Arguments are (value), Value -1 indicates a failure.
+        :param callback: A function to be called with the read CV value. Arguments are (cv, value), Value -1 indicates a failure.
         """
         self.controller.send_command(f"<R {cv}>")
         if callback is not None:
-            self.awaitingCallbacks.append(ExpectedCallback("r", 1, callback))
+            self.awaitingCallbacks.append(ExpectedCallback("v", 2, callback))
 
     def read_dcc_address(self, callback: Callable[[int], None]) -> None:
         """Read the DCC address in use by the locomotive. DCC-EX automatically reads the long or short address as needed.
@@ -92,19 +96,18 @@ class CVProgrammer:
         if callback is not None:
             self.awaitingCallbacks.append(ExpectedCallback("r", 1, callback))
 
-    def verify_cv_bit(self, cv: int, bit: int, expected: ActiveState, callback: Callable[[int, ActiveState], None]) -> None:
+    def verify_cv_bit(self, cv: int, bit: int, expected: ActiveState, callback: Callable[[int, int, int], None]) -> None:
         """DCC-EX tests the specified bit of a cv value against the expected value and returns the true value of the CV.
         Runs faster if the CV matches the expected value.
 
         :param cv: The CV to check against (1-1024).
-        :param bit: The individual bit to check (0-7).
+        :param bit: The individual bit to check (0-7, 0 is least significant).
         :param expected: Whether we expect the bit to be 1 (ON) or 0 (OFF).
-        :param callback: A function to be called with the read CV value. Arguments are (TODO), -1 is a failure.
+        :param callback: A function to be called with the read CV value. Arguments are (cv, bit, value), -1 is a failure.
         """
-        # TODO The documentation on the response is an issue here
         self.controller.send_command(f"<V {cv} {bit} {expected}>")
-        # TODO callback
-        pass
+        if callback is not None:
+            self.awaitingCallbacks.append(ExpectedCallback("v", 3, callback))
 
     def verify_cv(self, cv: int, expected: int, callback: Callable[[int, int], None]) -> None:
         """DCC-EX tests the specified cv value against the expected value and returns the true value of the CV.
@@ -120,12 +123,12 @@ class CVProgrammer:
 
     def write_cv_bit(self, cv: int, bit: int, state: ActiveState) -> None:
         """Writes the target bit of the target CV on the programming track.
+        The response for this callback is undocumented and as such no callbacks are provided.
 
         :param cv: The CV to write to (1-1024).
         :param bit: The individual bit to write (0-7).
         :param state: Whether to set the target bit ON (1) or OFF (0)
         """
-        # TODO missing response info
         self.controller.send_command(f"<B {cv} {bit} {state}>")
 
     def write_cv(self, cv: int, value: int, callback: Callable[[int, int], None]) -> None:
@@ -137,7 +140,7 @@ class CVProgrammer:
         """
         self.controller.send_command(F"<W {cv} {value}>")
         if callback is not None:
-            self.awaitingCallbacks.append(ExpectedCallback("w", 2, callback))
+            self.awaitingCallbacks.append(ExpectedCallback("r", 2, callback))
 
     def write_dcc_address(self, address: int, callback: Callable[[int], None]) -> None:
         """Writes the target DCC address to the locomotive. DCC-EX automatically selects between long and short addresses as needed.

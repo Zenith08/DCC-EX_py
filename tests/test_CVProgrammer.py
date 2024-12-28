@@ -88,8 +88,8 @@ def test_read_cv(mock_ex: MockDCCEX):
     assert mock_ex.last_command_received == "<R 3>"
     callbackMock.assert_not_called()
 
-    programmer._command_received(DecodedCommand("<r 8>\n".encode()))
-    callbackMock.assert_called_once_with(8)
+    programmer._command_received(DecodedCommand("<v 3 8>\n".encode()))
+    callbackMock.assert_called_once_with(3, 8)
 
 
 def test_read_dcc_address(mock_ex: MockDCCEX):
@@ -132,7 +132,6 @@ def test_write_cv_bit(mock_ex: MockDCCEX):
 
     programmer.write_cv_bit(26, 1, ActiveState.OFF)
     assert mock_ex.last_command_received == "<B 26 1 0>"
-    # TODO Response/callback not properly documented.
 
 
 def test_write_cv(mock_ex: MockDCCEX):
@@ -143,7 +142,7 @@ def test_write_cv(mock_ex: MockDCCEX):
     assert mock_ex.last_command_received == "<W 260 242>"
     callbackMock.assert_not_called()
 
-    programmer._command_received(DecodedCommand("<w 260 242>".encode()))
+    programmer._command_received(DecodedCommand("<r 260 242>".encode()))
     callbackMock.assert_called_once_with(260, 242)
 
 

@@ -25,3 +25,6 @@ API
    dcc_ex_py.Helpers.TurnoutControl
    dcc_ex_py.Helpers.TurnoutProfiles
    dcc_ex_py.Helpers.TurnoutState
+
+   dcc_ex_py.CVProgrammer.CVProgrammer
+   dcc_ex_py.CVProgrammer.ExpectedCallback
