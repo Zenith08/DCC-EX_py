@@ -9,9 +9,12 @@ on:
 name: Test on Live Hardware
 jobs:
     test:
-        runs-on: [self-hosted]
+        runs-on: self-hosted
         name: "Live Test"
         steps:
+            - name: Remove any unexpected installs
+              run: |
+                  pip uninstall dcc_ex_py
             - name: Checkout Code
               uses: actions/checkout@v4
             - name: Install dependencies
