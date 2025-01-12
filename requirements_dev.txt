@@ -11,3 +11,5 @@ sphinx
 sphinx-pyproject
 sphinx-markdown-builder
 sphinx-autodoc-typehints
+
+asyncio
