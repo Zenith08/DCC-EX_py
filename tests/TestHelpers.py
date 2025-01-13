@@ -4,6 +4,7 @@ import threading
 from typing import Optional
 
 from dcc_ex_py.DCCEX import DCCEX
+from dcc_ex_py.Sensors import Sensor
 
 
 class MockDCCEX(DCCEX):
@@ -65,3 +66,11 @@ class MockTCPServer:
             self.client_socket.close()
         if self.server_socket:
             self.server_socket.close()
+
+
+class MockSensor(Sensor):
+    def __init__(self):
+        super().__init__(-1, -1, False)
+    
+    def manual_set_state(self, state: bool):
+        self._set_state(state)

@@ -6,6 +6,7 @@ flake8-pytest-style
 
 pytest
 pytest-runner
+pytest-asyncio
 
 sphinx
 sphinx-pyproject
