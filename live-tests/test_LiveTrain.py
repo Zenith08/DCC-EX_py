@@ -4,7 +4,6 @@ Attempt: 1
 import sys
 import threading
 from threading import Event
-import time
 from dcc_ex_py.DCCEX import DCCEX
 
 # Globals
@@ -36,7 +35,7 @@ def test_live_basics():
 def test_write_basic():
     """Basic test to read decoder address, reset decoder address, and re-write decoder address."""
     global errorMessages
-    
+
     test_complete: Event = threading.Event()
 
     address = 0
@@ -50,7 +49,6 @@ def test_write_basic():
         # else test has passed
         print("test_write_basics Passed")
         test_complete.set()
-
 
     def reset_address_callback(addr: int):
         nonlocal address
@@ -73,7 +71,7 @@ def test_write_basic():
 
     def address_callback(addr: int):
         nonlocal address
-        address: int = addr
+        address = addr
         commandStation.programming.write_cv(8, 0, write_callback)
 
     # Entrypoint
