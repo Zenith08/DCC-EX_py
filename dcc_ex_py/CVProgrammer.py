@@ -136,7 +136,7 @@ class CVProgrammer:
 
         :param cv: The CV to write to (1-1024).
         :param value: The value to write to the CV (0-255).
-        :param callback: A function to be called with the read CV value. Arguments are (cv, value), -1 is a failure.
+        :param callback: A function to be called with the written CV value. Arguments are (cv, value), -1 is a failure.
         """
         self.controller.send_command(F"<W {cv} {value}>")
         if callback is not None:
