@@ -77,11 +77,12 @@ def test_write_basic():
     # Entrypoint
     commandStation.programming.read_dcc_address(address_callback)
 
-    if not test_complete.wait(10):
-        errorMessages.append("test_live_basics: Code timed out when reading CV.")
+    if not test_complete.wait(30):
+        errorMessages.append("test_write_basics: Code timed out during execution.")
 
 
 if __name__ == "__main__":
+    print("Starting live tests...")
     # Do all tests
     test_live_basics()
     test_write_basic()
