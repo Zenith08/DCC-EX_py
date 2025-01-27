@@ -59,7 +59,7 @@ def test_write_basic():
         commandStation.programming.write_dcc_address(address, validate_address_restored)
 
     def write_callback(cv: int, value: int):
-        if cv != 0:
+        if cv != 8:
             errorMessages.append(f"test_write_basics: Incorrect CV write, expected 8, got {cv}.")
             test_complete.set()
             return
