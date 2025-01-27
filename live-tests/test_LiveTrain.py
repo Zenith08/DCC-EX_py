@@ -19,9 +19,9 @@ def test_live_basics():
 
     def local_callback(cv: int, value: int):
         if cv != 8:
-            errorMessages.append(f"test_live_basics: Expected CV 8, got CV {cv}")
+            errorMessages.append(f"test_live_basics: Expected CV 8, got CV {cv}.")
         if value != 129:
-            errorMessages.append(f"test_live_basics: Expected to read 129 (Digitrax ID), got {value}")
+            errorMessages.append(f"test_live_basics: Expected to read 129 (Digitrax ID), got {value}.")
 
         # Else test passes
         print("test_live_basics Passed")
@@ -43,28 +43,28 @@ def test_write_basic():
     def validate_address_restored(addr: int):
         nonlocal address
         if addr != address:
-            errorMessages.append("test_write_basic: DCC Address not restored")
+            errorMessages.append(f"test_write_basic: DCC Address not restored, expected {address} got {addr}.")
             test_complete.set()
             return
         # else test has passed
-        print("test_write_basics Passed")
+        print("test_write_basics Passed.")
         test_complete.set()
 
     def reset_address_callback(addr: int):
         nonlocal address
         if addr != 3:
-            errorMessages.append("test_write_basics: DCC Address not reset")
+            errorMessages.append(f"test_write_basics: DCC Address not reset, expected 3, got {addr}.")
             test_complete.set()
             return
         commandStation.programming.write_dcc_address(address, validate_address_restored)
 
     def write_callback(cv: int, value: int):
-        if cv != 129:
-            errorMessages.append("test_write_basics: Incorrect CV write")
+        if cv != 0:
+            errorMessages.append(f"test_write_basics: Incorrect CV write, expected 8, got {cv}.")
             test_complete.set()
             return
         elif value != 0:
-            errorMessages.append("test_write_basics: Incorrect value written")
+            errorMessages.append(f"test_write_basics: Incorrect value written, expected 0, got {value}.")
             test_complete.set()
             return
         commandStation.programming.read_dcc_address(reset_address_callback)
