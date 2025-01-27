@@ -22,7 +22,7 @@ def test_live_basics():
             errorMessages.append(f"test_live_basics: Expected to read 129 (Digitrax ID), got {value}")
         # Else pass
         test_complete.set()
-    
+
     commandStation.programming.read_cv(8, local_callback)
     if not test_complete.wait(10):
         errorMessages.append("test_live_basics: Code timed out when reading CV.")

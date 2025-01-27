@@ -22,9 +22,9 @@ jobs:
               uses: actions/checkout@v4
             - name: Install dependencies
               run: |
-                  ./venv/pip install --user -r requirements.txt
-                  ./venv/pip install --user -r requirements_dev.txt
-                  ./venv/pip install .
+                  ./venv/bin/pip install --user -r requirements.txt
+                  ./venv/bin/pip install --user -r requirements_dev.txt
+                  ./venv/bin/pip install .
             - name: Run Tests
               run: |
-                  python ./live-tests/test_LiveTrain.py
+                  ./venv/bin/python ./live-tests/test_LiveTrain.py
