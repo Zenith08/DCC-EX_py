@@ -84,6 +84,7 @@ def test_write_basic():
 if __name__ == "__main__":
     # Do all tests
     test_live_basics()
+    test_write_basic()
 
     # Process results
     if len(errorMessages) == 0:
