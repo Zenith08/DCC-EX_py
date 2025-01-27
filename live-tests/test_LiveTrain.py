@@ -22,6 +22,8 @@ def test_live_basics():
             errorMessages.append(f"test_live_basics: Expected CV 8, got CV {cv}")
         if value != 129:
             errorMessages.append(f"test_live_basics: Expected to read 129 (Digitrax ID), got {value}")
+        
+        print(f"Reading CV 8, got cv {cv} value {value}")
         # Else pass
         test_complete.set()
 
