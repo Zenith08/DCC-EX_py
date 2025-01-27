@@ -55,7 +55,7 @@ class CVProgrammer:
         self.controller: DCCEX = controller
 
         self.controller.add_command_listener(self._command_received)
-        self.awaitingCallbacks: list[ExpectedCallback] = []
+        self._awaitingCallbacks: list[ExpectedCallback] = []
 
     def write_cv_bit_main(self, cab: int, cv: int, bit: int, value: ActiveState) -> None:
         """Writes a single bit of the specified CV of the specified locomotive on the main track.
@@ -85,7 +85,7 @@ class CVProgrammer:
         """
         self.controller.send_command(f"<R {cv}>")
         if callback is not None:
-            self.awaitingCallbacks.append(ExpectedCallback("v", 2, callback))
+            self._awaitingCallbacks.append(ExpectedCallback("v", 2, callback))
 
     def read_dcc_address(self, callback: Callable[[int], None]) -> None:
         """Read the DCC address in use by the locomotive. DCC-EX automatically reads the long or short address as needed.
@@ -94,7 +94,7 @@ class CVProgrammer:
         """
         self.controller.send_command("<R>")
         if callback is not None:
-            self.awaitingCallbacks.append(ExpectedCallback("r", 1, callback))
+            self._awaitingCallbacks.append(ExpectedCallback("r", 1, callback))
 
     def verify_cv_bit(self, cv: int, bit: int, expected: ActiveState, callback: Callable[[int, int, int], None]) -> None:
         """DCC-EX tests the specified bit of a cv value against the expected value and returns the true value of the CV.
@@ -107,7 +107,7 @@ class CVProgrammer:
         """
         self.controller.send_command(f"<V {cv} {bit} {expected}>")
         if callback is not None:
-            self.awaitingCallbacks.append(ExpectedCallback("v", 3, callback))
+            self._awaitingCallbacks.append(ExpectedCallback("v", 3, callback))
 
     def verify_cv(self, cv: int, expected: int, callback: Callable[[int, int], None]) -> None:
         """DCC-EX tests the specified cv value against the expected value and returns the true value of the CV.
@@ -119,7 +119,7 @@ class CVProgrammer:
         """
         self.controller.send_command(f"<V {cv} {expected}>")
         if callback is not None:
-            self.awaitingCallbacks.append(ExpectedCallback("v", 2, callback))
+            self._awaitingCallbacks.append(ExpectedCallback("v", 2, callback))
 
     def write_cv_bit(self, cv: int, bit: int, state: ActiveState) -> None:
         """Writes the target bit of the target CV on the programming track.
@@ -140,7 +140,7 @@ class CVProgrammer:
         """
         self.controller.send_command(F"<W {cv} {value}>")
         if callback is not None:
-            self.awaitingCallbacks.append(ExpectedCallback("r", 2, callback))
+            self._awaitingCallbacks.append(ExpectedCallback("r", 2, callback))
 
     def write_dcc_address(self, address: int, callback: Callable[[int], None]) -> None:
         """Writes the target DCC address to the locomotive. DCC-EX automatically selects between long and short addresses as needed.
@@ -150,7 +150,7 @@ class CVProgrammer:
         """
         self.controller.send_command(F"<W {address}>")
         if callback is not None:
-            self.awaitingCallbacks.append(ExpectedCallback("w", 1, callback))
+            self._awaitingCallbacks.append(ExpectedCallback("w", 1, callback))
 
     def _command_received(self, command: DecodedCommand) -> None:
         """Internal listener to catch changes on the command station both caused by this program and other connections.
@@ -158,9 +158,10 @@ class CVProgrammer:
         :param command: The command we received after parsing it into a helper class.
         """
         callbackUsed: ExpectedCallback | None = None
-        for possibleCallback in self.awaitingCallbacks:
+        for possibleCallback in self._awaitingCallbacks:
             if possibleCallback._response_received(command):
+                callbackUsed = possibleCallback
                 break
 
         if callbackUsed is not None:
-            self.awaitingCallbacks.remove(callbackUsed)
+            self._awaitingCallbacks.remove(callbackUsed)
