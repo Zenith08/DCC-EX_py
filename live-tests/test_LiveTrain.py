@@ -4,6 +4,7 @@ Attempt: 1
 import sys
 import threading
 from threading import Event
+import time
 from dcc_ex_py.DCCEX import DCCEX
 
 # Globals
@@ -22,12 +23,62 @@ def test_live_basics():
             errorMessages.append(f"test_live_basics: Expected CV 8, got CV {cv}")
         if value != 129:
             errorMessages.append(f"test_live_basics: Expected to read 129 (Digitrax ID), got {value}")
-        
-        print(f"Reading CV 8, got cv {cv} value {value}")
-        # Else pass
+
+        # Else test passes
+        print("test_live_basics Passed")
         test_complete.set()
 
     commandStation.programming.read_cv(8, local_callback)
+    if not test_complete.wait(10):
+        errorMessages.append("test_live_basics: Code timed out when reading CV.")
+
+
+def test_write_basic():
+    """Basic test to read decoder address, reset decoder address, and re-write decoder address."""
+    global errorMessages
+    
+    test_complete: Event = threading.Event()
+
+    address = 0
+
+    def validate_address_restored(addr: int):
+        nonlocal address
+        if addr != address:
+            errorMessages.append("test_write_basic: DCC Address not restored")
+            test_complete.set()
+            return
+        # else test has passed
+        print("test_write_basics Passed")
+        test_complete.set()
+
+
+    def reset_address_callback(addr: int):
+        nonlocal address
+        if addr != 3:
+            errorMessages.append("test_write_basics: DCC Address not reset")
+            test_complete.set()
+            return
+        commandStation.programming.write_dcc_address(address, validate_address_restored)
+
+    def write_callback(cv: int, value: int):
+        if cv != 129:
+            errorMessages.append("test_write_basics: Incorrect CV write")
+            test_complete.set()
+            return
+        elif value != 0:
+            errorMessages.append("test_write_basics: Incorrect value written")
+            test_complete.set()
+            return
+        commandStation.programming.read_dcc_address(reset_address_callback)
+
+    def address_callback(addr: int):
+        nonlocal address
+        address: int = addr
+        commandStation.programming.write_cv(8, 0, write_callback)
+
+    # Entrypoint
+    commandStation.programming.read_dcc_address(address_callback)
+
     if not test_complete.wait(10):
         errorMessages.append("test_live_basics: Code timed out when reading CV.")
 
