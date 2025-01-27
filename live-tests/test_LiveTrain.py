@@ -36,11 +36,13 @@ def test_write_basic():
     """Basic test to read decoder address, reset decoder address, and re-write decoder address."""
     global errorMessages
 
+    print("Starting read write test")
     test_complete: Event = threading.Event()
 
     address = 0
 
     def validate_address_restored(addr: int):
+        print(f"Checking the original address was restored correctly, got {addr}")
         nonlocal address
         if addr != address:
             errorMessages.append(f"test_write_basic: DCC Address not restored, expected {address} got {addr}.")
@@ -50,7 +52,8 @@ def test_write_basic():
         print("test_write_basics Passed.")
         test_complete.set()
 
-    def reset_address_callback(addr: int):
+    def did_reset_address_callback(addr: int):
+        print(f"Checking address after reset, got {addr}")
         nonlocal address
         if addr != 3:
             errorMessages.append(f"test_write_basics: DCC Address not reset, expected 3, got {addr}.")
@@ -59,6 +62,7 @@ def test_write_basic():
         commandStation.programming.write_dcc_address(address, validate_address_restored)
 
     def write_callback(cv: int, value: int):
+        print(f"Wrote {value} to cv {cv}")
         if cv != 8:
             errorMessages.append(f"test_write_basics: Incorrect CV write, expected 8, got {cv}.")
             test_complete.set()
@@ -67,9 +71,10 @@ def test_write_basic():
             errorMessages.append(f"test_write_basics: Incorrect value written, expected 0, got {value}.")
             test_complete.set()
             return
-        commandStation.programming.read_dcc_address(reset_address_callback)
+        commandStation.programming.read_dcc_address(did_reset_address_callback)
 
     def address_callback(addr: int):
+        print(f"Got the initial address read {addr}")
         nonlocal address
         address = addr
         commandStation.programming.write_cv(8, 0, write_callback)
