@@ -67,7 +67,7 @@ def test_write_basic():
             errorMessages.append(f"test_write_basics: Incorrect CV write, expected 8, got {cv}.")
             test_complete.set()
             return
-        elif value != 0:
+        elif value != 8:
             errorMessages.append(f"test_write_basics: Incorrect value written, expected 0, got {value}.")
             test_complete.set()
             return
@@ -77,7 +77,7 @@ def test_write_basic():
         print(f"Got the initial address read {addr}")
         nonlocal address
         address = addr
-        commandStation.programming.write_cv(8, 0, write_callback)
+        commandStation.programming.write_cv(8, 8, write_callback)
 
     # Entrypoint
     commandStation.programming.read_dcc_address(address_callback)
