@@ -12,16 +12,19 @@ jobs:
         runs-on: self-hosted
         name: "Live Test"
         steps:
+            - name: Set up VEnv
+              run: |
+                  python3 -m venv ./venv || true
             - name: Remove any unexpected installs
               run: |
-                  pip uninstall dcc_ex_py
+                  ./venv/bin/pip uninstall dcc_ex_py || true
             - name: Checkout Code
               uses: actions/checkout@v4
             - name: Install dependencies
               run: |
-                  pip install --user -r requirements.txt
-                  pip install --user -r requirements_dev.txt
-                  pip install .
+                  ./venv/pip install --user -r requirements.txt
+                  ./venv/pip install --user -r requirements_dev.txt
+                  ./venv/pip install .
             - name: Run Tests
               run: |
                   python ./live-tests/test_LiveTrain.py
