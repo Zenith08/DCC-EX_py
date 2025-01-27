@@ -1,4 +1,6 @@
-"""A test system called by Github Actions separately to run tests on real hardware."""
+"""A test system called by Github Actions separately to run tests on real hardware.
+Attempt: 1
+"""
 import sys
 import threading
 from threading import Event
