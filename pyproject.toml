@@ -50,6 +50,10 @@ exclude = [
 ]
 max-line-length = 200
 
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_loop = "function"  # Explicitly set loop scope
+
 [build-system]
 requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
