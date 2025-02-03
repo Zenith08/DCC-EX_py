@@ -1,1 +1,1 @@
-"""Tests for the Asyncio enabled sensor class."""
+"""Tests for the Asyncio enabled classes."""

@@ -1,47 +1,67 @@
+from typing import Any
 import pytest
 import asyncio
-import time
 
-from ..TestHelpers import MockDCCEX, MockSensor
+from ..TestHelpers import DummySensor
 from dcc_ex_py.asyncsensor.AsyncSensor import AsyncSensor
-from dcc_ex_py.Sensors import Sensors, Sensor
 
 
-@pytest.fixture
-def mock_ex() -> MockDCCEX:
-    return MockDCCEX()
+@pytest.mark.asyncio
+async def test_active_returns_true_after_activation():
+    """
+    Test that the async 'active' method returns True when the sensor is activated.
+    """
+    # Create a dummy sensor and wrap it with AsyncSensor.
+    dummy: DummySensor = DummySensor()
+    async_sensor: AsyncSensor = AsyncSensor(dummy)
+
+    # Start the asynchronous wait in the event loop.
+    # This schedules async_sensor.active() which will await until a state change.
+    active_future: asyncio.Task[Any] = asyncio.create_task(async_sensor.active())
+
+    # Allow the event loop to run a little so that async_sensor.active() is pending.
+    await asyncio.sleep(0.1)
+
+    # Simulate sensor activation.
+    dummy.simulate_state_change(active=True)
+
+    # Await the result of active(). It should return True.
+    result: bool = await active_future
+    assert result is True
 
 
-@pytest.fixture
-def mock_sensor() -> MockSensor:
-    return MockSensor()
+@pytest.mark.asyncio
+async def test_no_activation_does_not_complete():
+    """
+    Test that the async 'active' method does not complete if the sensor is not activated.
+    We use a timeout to ensure that the coroutine remains pending.
+    """
+    dummy: DummySensor = DummySensor()
+    async_sensor: AsyncSensor = AsyncSensor(dummy)
+
+    # Start the asynchronous wait.
+    active_future: asyncio.Task[Any] = asyncio.create_task(async_sensor.active())
+
+    # We do not simulate any sensor activation.
+    # The coroutine should not complete; we use asyncio.wait_for with a short timeout.
+    with pytest.raises(asyncio.TimeoutError):
+        await asyncio.wait_for(active_future, timeout=0.2)
 
 
-async def test_async_sensor(mock_sensor):
-    pytest.skip("Async tests are not succeeding.")
-    # # Initialize AsyncSensor with the mock
-    # print("Start")
-    # async_sensor = AsyncSensor(mock_sensor)
+@pytest.mark.asyncio
+async def test_inactive_state_does_not_trigger_callback():
+    """
+    Test that when the sensor is simulated with inactive state (False),
+    the active() method does not complete.
+    """
+    dummy: DummySensor = DummySensor()
+    async_sensor: AsyncSensor = AsyncSensor(dummy)
 
-    # assert async_sensor._parent.id == -1
-    # assert async_sensor._parent.pin == -1
-    # assert async_sensor._parent.inverted == False
-    # assert async_sensor._parent.active == False
+    active_future: asyncio.Task[Any] = asyncio.create_task(async_sensor.active())
 
-    # print("Setup")
-    # # Start a task to call `active()`
-    # async def wait_for_active():
-    #     print("Begin event loop wait")
-    #     return await async_sensor.active()
+    # Simulate sensor inactive state.
+    dummy.simulate_state_change(active=False)
 
-    # print("Start loop")
-    # active_task = asyncio.create_task(wait_for_active())
-    # print("After loop")
-    # time.sleep(0.25)
-    # print("After wait")
-    # # Simulate the sensor being active
-    # mock_sensor.manual_set_state(True)
-
-    # # Ensure the task completes and returns True
-    # result = await active_task
-    # assert result is True
+    # The active() coroutine should still be pending since only an active (True) state triggers completion.
+    with pytest.raises(asyncio.TimeoutError):
+        await asyncio.wait_for(active_future, timeout=0.2)

@@ -71,6 +71,18 @@ class MockTCPServer:
 class MockSensor(Sensor):
     def __init__(self):
         super().__init__(-1, -1, False)
-    
+
     def manual_set_state(self, state: bool):
         self._set_state(state)
+
+
+# A dummy Sensor class that has a state_change attribute.
+class DummySensor(Sensor):
+    def __init__(self):
+        # The AsyncSensor expects the parent sensor to have a 'state_change' list
+        self.state_change = []
+
+    def simulate_state_change(self, active: bool):
+        """Simulate a state change by invoking all registered callbacks."""
+        for callback in self.state_change:
+            callback(self, active)

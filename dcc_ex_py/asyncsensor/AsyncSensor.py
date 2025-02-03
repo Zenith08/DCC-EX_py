@@ -3,6 +3,7 @@ from typing import Any
 from ..Sensors import Sensor
 import queue
 
+
 class AsyncSensor():
     """Wraps a sensor into a reusable container that allows the use of asyncio to await for sensor conditions to be met.
     """
@@ -40,7 +41,7 @@ class AsyncSensor():
     async def active(self) -> Any:
         """The primary asynchronous function, expected to be used as `await asyncsensor.active()`,
         pauses an asyncio event loop until this sensor detects a train.
-        
+
         :return: `True`, a discard value required by the Async Queue but not meaningful. (Type hint is Any to indicate this value is meaningless).
         """
         self._loops.put(asyncio.get_event_loop())
