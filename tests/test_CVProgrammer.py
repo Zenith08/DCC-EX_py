@@ -109,7 +109,6 @@ def test_verify_cv_bit(mock_ex: MockDCCEX):
 
     programmer.verify_cv_bit(3, 1, ActiveState.ON, MockCallback())
     assert mock_ex.last_command_received == "<V 3 1 1>"
-    # TODO Response/callback not properly documented.
 
 
 def test_verify_cv(mock_ex: MockDCCEX):
