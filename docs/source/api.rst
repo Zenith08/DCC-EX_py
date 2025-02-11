@@ -7,7 +7,7 @@ API
    dcc_ex_py.DCCEX.DCCEX
    dcc_ex_py.TrackPower.TrackPower
    dcc_ex_py.TrainEngines.TrainEngines
-   dcc_ex_py.TrainEngines.ActiveEngine
+   dcc_ex_py.TrainEngines.TrainEngine
    dcc_ex_py.AccessoryDecoders.Accessories
    dcc_ex_py.Turnouts.Turnouts
    dcc_ex_py.Turnouts.Turnout

@@ -41,7 +41,7 @@ autodoc_default_options: dict[str, bool] = {
 templates_path: list[str] = ['_templates']
 exclude_patterns: list[str] = []
 
-
+pygments_style = 'sphinx'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

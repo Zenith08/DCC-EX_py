@@ -1,6 +1,7 @@
 name: Deploy Sphinx Documentation to Wiki
 
 on:
+  workflow_dispatch:
   release:
       types: [created]
 
