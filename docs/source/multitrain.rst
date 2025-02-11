@@ -14,7 +14,6 @@ Once again, :code:`async def main()` is the entry point which runs a brief initi
 .. code-block::
 
     async def main():
-
         command.track_power.power_select_track(ActiveState.ON, Track.MAIN)
         await asyncio.sleep(1)
         await init_turnouts()
@@ -23,7 +22,6 @@ Then, a task is started for each train and they begin to run:
 .. code-block::
 
     async with asyncio.TaskGroup() as tg:
-
         task1 = tg.create_task(snow_blower_route())
         task2 = tg.create_task(freight_train_route())
         task3 = tg.create_task(tram_route())
@@ -33,7 +31,6 @@ Here is an excerpt from the Tram's operation with some notes added:
 .. code-block::
 
     while True:
-
         print("T: Awaiting WM to move to mainline 1 end")
         await mainline1End.active() # This waits for the Snow Blower train to cross a sensor point
         tramStation.set_state(TurnoutState.CLOSED) # Now we can set the track in our favour and start moving.
