@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.abspath('..'))  # Adjust the path accordingly
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project: str = 'DCCEX_py'
-copyright: str = '2024, Kaiden'
+copyright: str = '2025, Kaiden'
 author: str = 'Kaiden Richardson'
 release: str = '0.0.1'
 

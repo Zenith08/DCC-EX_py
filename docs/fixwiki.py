@@ -13,6 +13,7 @@ def replace_link(match: re.Match) -> str:
     # Extract path without '_autosummary/' and '.md'
     path: str = match.group(1)
     # Extract fragment if it exists
+    print(f"Got path {path}")
     fragment: Optional[str] = match.group(2) if match.group(2) else ''
     return f'({path}{fragment})'
 

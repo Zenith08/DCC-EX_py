@@ -1,3 +1,5 @@
+:orphan:
+
 Multiple Train Example
 ======================
 
@@ -9,7 +11,7 @@ Like last time we start with a block connecting to the DCC-EX command staiton, a
 Also like last time, the crossing is being controlled by EX-RAIL automation on the command station itself.
 
 Once again, :code:`async def main()` is the entry point which runs a brief initialization to set track power and turnouts to the correct state.
-.. code-block:: python
+.. code-block::
 
     async def main():
 
@@ -18,7 +20,7 @@ Once again, :code:`async def main()` is the entry point which runs a brief initi
         await init_turnouts()
 
 Then, a task is started for each train and they begin to run:
-.. code-block:: python
+.. code-block::
 
     async with asyncio.TaskGroup() as tg:
 
@@ -28,7 +30,7 @@ Then, a task is started for each train and they begin to run:
 
 Each train's task is similar to the main loop seen in the Amtrak example. This time though trains will wait for other trains (still using AsyncSensor) and will set turnouts before moving.
 Here is an excerpt from the Tram's operation with some notes added:
-.. code-block:: python
+.. code-block::
 
     while True:
 

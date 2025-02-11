@@ -11,7 +11,7 @@ from .TestHelpers import MockTCPServer
 def mock_server():
     server = MockTCPServer(port=9999)  # Mock server on a specific port
     server.start()
-    sleep(0.1)  # Give server time to start
+    sleep(1)  # Give server time to start
     yield server
     server.stop()
 
@@ -21,7 +21,7 @@ def test_dccex_connection(mock_server):
     assert client is not None
 
     client.send_command("<1>")
-    sleep(0.1)
+    sleep(1)
     assert mock_server.last_received == "<1>\n"
 
     def command_listener(command: DecodedCommand):
@@ -30,7 +30,7 @@ def test_dccex_connection(mock_server):
     client.add_command_listener(command_listener)
 
     mock_server.send("<P1>\n")
-    sleep(0.1)
+    sleep(1)
 
     client.quit()
 
@@ -51,7 +51,7 @@ def test_add_2_listeners(mock_server):
     client.add_command_listener(command_listener_2)
 
     mock_server.send("<H 1 1>\n")
-    sleep(0.1)
+    sleep(1)
 
     client.quit()
 
@@ -73,7 +73,7 @@ def test_remove_listeners(mock_server):
     client.remove_command_listener(command_listener_1)
 
     mock_server.send("<H 2 0>\n")
-    sleep(0.1)
+    sleep(1)
 
     client.quit()
 
@@ -98,16 +98,16 @@ def test_add_remove_listeners(mock_server):
     client.add_command_listener(listener_2)
 
     mock_server.send("<Q 1>\n")
-    sleep(0.1)
+    sleep(1)
 
     client.add_command_listener(listener_1)
     expectedAnswer = True
 
     mock_server.send("<Q 1>\n")
-    sleep(0.1)
+    sleep(1)
 
     client.remove_command_listener(listener_1)
     expectedAnswer = False
-    sleep(0.1)
+    sleep(1)
 
     client.quit()

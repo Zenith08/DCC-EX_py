@@ -1,3 +1,5 @@
+:orphan:
+
 Amtrak Sound Example
 ====================
 
@@ -6,7 +8,7 @@ Here is a video of the final result:
 // video embed
 
 First, the script establishes a connection to the server, then we create local representations of all of the objects on the railroad we will be interacting with.
-.. code-block:: python
+.. code-block::
 
     ## Init everything
     command: DCCEX = DCCEX("192.168.4.1", 2560)
@@ -23,7 +25,7 @@ First, the script establishes a connection to the server, then we create local r
 It is not strictly necessary to get the turnouts, they are only retrieved here to ensure they start in the correct (straight-on) position.
 
 This project uses asyncio to allow multiple things to happen at once. :code:`async def main()` is the entry point for that.
-.. code-block:: python
+.. code-block::
 
     async def main() -> None:
         command.track_power.power_select_track(ActiveState.ON, Track.MAIN)
@@ -39,7 +41,7 @@ The other begins the startup sound sequence on the locomotive (if sound is enabl
 
 Now we have the loop.
 First, :code:`await horn_sequence(1)` invokes another task to play the horn for 1 second.
-.. code-block:: python
+.. code-block::
 
     async def horn_sequence(timeInSecs: float) -> None:
         """Asynchronously plays the horn for the specified lenght of time"""
@@ -55,7 +57,7 @@ First, :code:`await horn_sequence(1)` invokes another task to play the horn for 
 After that, the train starts moving with :code:`amtrak.set_speed(60, Direction.FORWARD)`.
 From here, the main workflow with this API is meant to be a series of commands to the train separated by await calls for different sensors or triggers.
 This code covers the first entire loop of the train around the track.
-.. code-block:: python
+.. code-block::
 
     amtrak.set_speed(60, Direction.FORWARD)
     print("Train moving.")
