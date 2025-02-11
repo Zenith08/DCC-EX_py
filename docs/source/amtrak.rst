@@ -12,14 +12,17 @@ First, the script establishes a connection to the server, then we create local r
 
     ## Init everything
     command: DCCEX = DCCEX("192.168.4.1", 2560)
+
     befCrossingRoot: Sensor = command.sensors.define_sensor(1, 49, False)
     beforeCrossing: AsyncSensor = AsyncSensor(befCrossingRoot)
     aftCrossingRoot: Sensor = command.sensors.define_sensor(2, 45, False)
     afterCrossing: AsyncSensor = AsyncSensor(aftCrossingRoot)
+
     stationCCW: Turnout = command.turnouts.create_dcc_turnout(1001, 1)
     stationCW: Turnout = command.turnouts.create_dcc_turnout(1004, 4)
     mainlineFront: Turnout = command.turnouts.create_dcc_turnout(1002, 2)
     mainlineBack: Turnout = command.turnouts.create_dcc_turnout(1005, 5)
+
     amtrak: TrainEngine = command.train_engines.get_engine(5)
 
 It is not strictly necessary to get the turnouts, they are only retrieved here to ensure they start in the correct (straight-on) position.
@@ -32,7 +35,6 @@ This project uses asyncio to allow multiple things to happen at once. :code:`asy
         print("Track power on.")
         await asyncio.sleep(1)
         async with asyncio.TaskGroup() as tg:
-
             task1 = tg.create_task(startup_sequence())
             task2 = tg.create_task(turnout_fix())
 
@@ -47,7 +49,6 @@ First, :code:`await horn_sequence(1)` invokes another task to play the horn for 
         """Asynchronously plays the horn for the specified lenght of time"""
         print(f"Horn start {timeInSecs}")
         if soundLevel >= SoundLevel.HORN_AND_BELL:
-
             amtrak.set_function(2, ActiveState.ON)
             await asyncio.sleep(timeInSecs)
             amtrak.set_function(2, ActiveState.OFF)

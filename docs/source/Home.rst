@@ -10,8 +10,8 @@ Take a look at these examples:
 .. toctree::
    :maxdepth: 1
 
-   Amtrak Example<https://github.com/Zenith08/DCC-EX_py/wiki/amtrak>
-   Multitrain Example<https://github.com/Zenith08/DCC-EX_py/wiki/multitrain>
+   Amtrak Example<https://github.com/Zenith08/DCC-EX_py/wiki/Amtrak>
+   Multitrain Example<https://github.com/Zenith08/DCC-EX_py/wiki/Multitrain>
 
 ----------------------------
 Auto-Generated Documentation
@@ -19,4 +19,4 @@ Auto-Generated Documentation
 .. toctree::
    :maxdepth: 1
 
-   API<https://github.com/Zenith08/DCC-EX_py/wiki/api>
+   API<https://github.com/Zenith08/DCC-EX_py/wiki/API>

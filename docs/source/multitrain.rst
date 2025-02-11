@@ -3,7 +3,7 @@
 Multiple Train Example
 ======================
 
-The goal of this project was to build off the :doc:`amtrak` project, this time with 3 trains running independently. The trains are old Bachmann DCC equipped trains with no sound this time. Additionally, I added a DCC decoder to the rotary snowplow.
+The goal of this project was to build off the [Amtrak](https://github.com/Zenith08/DCC-EX_py/wiki/Amtrak) project, this time with 3 trains running independently. The trains are old Bachmann DCC equipped trains with no sound this time. Additionally, I added a DCC decoder to the rotary snowplow.
 Here is a video of the final result:
 // video embed
 

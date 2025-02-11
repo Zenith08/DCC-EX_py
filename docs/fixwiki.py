@@ -7,6 +7,7 @@ build_dir: str = os.path.join('docs', 'build')
 
 # Regular expression to match links that include the incorrect path
 link_regex: re.Pattern[str] = re.compile(r'\(_autosummary/(.*?)\.md(#.*?)?\)')
+python_regex: re.Pattern[str] = re.compile(r'```default')
 
 
 def replace_link(match: re.Match) -> str:
@@ -24,6 +25,7 @@ def fix_links_in_file(file_path) -> None:
 
     # Replace all occurrences of the incorrect path with the correct path
     updated_content: str = re.sub(link_regex, replace_link, content)
+    updated_content = updated_content.replace("```default", "```python")
 
     with open(file_path, 'w', encoding='utf8') as file:
         file.write(updated_content)
