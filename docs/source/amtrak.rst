@@ -5,7 +5,8 @@ Amtrak Sound Example
 
 The goal of this project was a single train running around the tracks with sound cues based on sensors. The locomotive is a DCC+Sound Enabled Walthers Mainline F40 Phase 2.
 Here is a video of the final result:
-// video embed
+
+[![Demo Video](http://img.youtube.com/vi/8A_f9tJLWSE/0.jpg)](https://youtu.be/8A_f9tJLWSE)
 
 First, the script establishes a connection to the server, then we create local representations of all of the objects on the railroad we will be interacting with.
 .. code-block::

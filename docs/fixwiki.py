@@ -26,6 +26,7 @@ def fix_links_in_file(file_path) -> None:
     # Replace all occurrences of the incorrect path with the correct path
     updated_content: str = re.sub(link_regex, replace_link, content)
     updated_content = updated_content.replace("```default", "```python")
+    updated_content = updated_content.replace(".. code-block:", "")
 
     with open(file_path, 'w', encoding='utf8') as file:
         file.write(updated_content)

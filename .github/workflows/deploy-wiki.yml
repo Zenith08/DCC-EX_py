@@ -1,8 +1,9 @@
 name: Deploy Sphinx Documentation to Wiki
 
 on:
-  release:
-      types: [created]
+  # release:
+  #     types: [created]
+  pull_request:
 
 jobs:
   build-and-deploy:
@@ -30,7 +31,7 @@ jobs:
     - name: Build Sphinx Documentation
       run: |
         sphinx-build -b markdown docs/source docs/build/
-    
+
     - name: Fix Wiki Links
       run: |
         python docs/fixwiki.py
