@@ -6,12 +6,10 @@
 DCCEX_py documentation
 ======================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+This needs to be here but is unused because GitHub Wiki checks for Home not index.
 
 
 .. toctree::
    :maxdepth: 2
 
-   api.rst
+   API.rst

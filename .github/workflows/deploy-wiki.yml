@@ -30,7 +30,7 @@ jobs:
     - name: Build Sphinx Documentation
       run: |
         sphinx-build -b markdown docs/source docs/build/
-    
+
     - name: Fix Wiki Links
       run: |
         python docs/fixwiki.py
