@@ -26,10 +26,12 @@ Documentation is available on the [GitHub Wiki](https://github.com/Zenith08/DCC-
 ## Examples
 ### Single Sound-Enabled Train:
 [![Amtrak Example](http://img.youtube.com/vi/8A_f9tJLWSE/0.jpg)](https://youtu.be/8A_f9tJLWSE)
+
 This video shows a train running a simple loop with sound triggers and stopping based on sensors in the track.
 
 ### Multiple Complex Trains
 [![Multitrain Example](http://img.youtube.com/vi/ylQdYiYuVxI/0.jpg)](https://youtu.be/ylQdYiYuVxI)
+
 This video shows what can be done when multiple trains are programmed to perform complex behavior. The routes are all pre-planned and designed to loop.
 
 Be aware that the crossing signal is being controlled by EX-RAIL automation on the command station instead of externally by the python script.
