@@ -12,6 +12,11 @@ errorMessages: list[str] = []
 
 def test_live_basics():
     """Basic test to see if the decoder is responding."""
+<<<<<<< HEAD
+=======
+    global errorMessages
+
+>>>>>>> 7aa6480761f65c314dce51c13644b0336f3d893d
     test_complete: Event = threading.Event()
 
     def local_callback(cv: int, value: int):
@@ -31,6 +36,11 @@ def test_live_basics():
 
 def test_write_basic():
     """Basic test to read decoder address, reset decoder address, and re-write decoder address."""
+<<<<<<< HEAD
+=======
+    global errorMessages
+
+>>>>>>> 7aa6480761f65c314dce51c13644b0336f3d893d
     print("Starting read write test")
     test_complete: Event = threading.Event()
 
@@ -38,6 +48,10 @@ def test_write_basic():
 
     def validate_address_restored(addr: int):
         print(f"Checking the original address was restored correctly, got {addr}")
+<<<<<<< HEAD
+=======
+        nonlocal address
+>>>>>>> 7aa6480761f65c314dce51c13644b0336f3d893d
         if addr != address:
             errorMessages.append(f"test_write_basic: DCC Address not restored, expected {address} got {addr}.")
             test_complete.set()
@@ -48,6 +62,10 @@ def test_write_basic():
 
     def did_reset_address_callback(addr: int):
         print(f"Checking address after reset, got {addr}")
+<<<<<<< HEAD
+=======
+        nonlocal address
+>>>>>>> 7aa6480761f65c314dce51c13644b0336f3d893d
         if addr != 3:
             errorMessages.append(f"test_write_basics: DCC Address not reset, expected 3, got {addr}.")
             test_complete.set()
