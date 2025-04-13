@@ -1,0 +1,24 @@
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+name: Test on Live Hardware
+jobs:
+    test:
+        runs-on: self-hosted
+        name: "Live Test"
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+            - name: Install dependencies
+              run: |
+                  python3 -m venv ./venv || true
+                  ./venv/bin/pip uninstall dcc_ex_py || true
+                  ./venv/bin/pip install -r requirements.txt
+                  ./venv/bin/pip install -r requirements_dev.txt
+                  ./venv/bin/pip install .
+                  ./venv/bin/python ./live-tests/test_LiveTrain.py
