@@ -1,16 +1,16 @@
 [project]
 name = "DCC-EX_py"
-version = "0.0.4"
+version = "1.0.0"
 dynamic = [
     "dependencies",
 ]
-description = "TODO"
+description = "A simple way to connect to your DCC-EX controlled model railroad using python code without having to write DCC-EX commands into code. "
 readme = "README.md"
 requires-python = ">=3.11"
 keywords = [
     "DCC-EX_py",
 ]
-license = {text = "MIT License"}
+license = {text = "MIT"}
 authors = [
   {name = "Kaiden Richardson", email = "kaidencr@gmail.com"},
 ]
@@ -20,16 +20,12 @@ classifiers = [
     "Natural Language :: English",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
-[project.optional-dependencies]
-all = [
-    "DCC-EX_py[extra]",
-]
-
-extra = [
-]
-
+[project.urls]
+Documentation = "https://github.com/Zenith08/DCC-EX_py/wiki"
+Repository = "https://github.com/Zenith08/DCC-EX_py"
 
 [tool]
 [tool.setuptools.packages.find]
